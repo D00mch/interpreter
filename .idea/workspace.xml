@@ -1,0 +1,387 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ChangeListManager">
+    <list default="true" id="805c7f0f-3ea2-4af6-b1e7-e3f023cc2b8a" name="Default Changelist" comment="" />
+    <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="FileEditorManager">
+    <leaf>
+      <file pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/src/interpreter/impl/default.clj">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="90">
+              <caret line="6" column="15" selection-start-line="6" selection-start-column="15" selection-end-line="6" selection-end-column="15" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+    </leaf>
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Kotlin File" />
+        <option value="Clojure Test Namespace" />
+        <option value="Clojure Namespace" />
+      </list>
+    </option>
+  </component>
+  <component name="FindInProjectRecents">
+    <findStrings>
+      <find>i-eval</find>
+      <find>i-apply</find>
+      <find>eval</find>
+    </findStrings>
+    <replaceStrings>
+      <replace>eval</replace>
+      <replace>apply</replace>
+      <replace>i-eval</replace>
+    </replaceStrings>
+  </component>
+  <component name="IdeDocumentHistory">
+    <option name="CHANGED_PATHS">
+      <list>
+        <option value="$PROJECT_DIR$/src/interpreter/raw.kt" />
+        <option value="$PROJECT_DIR$/src/interpreter/raw.clj" />
+        <option value="$PROJECT_DIR$/src/interpreter/raw2.clj" />
+        <option value="$PROJECT_DIR$/src/interpreter/eval.clj" />
+        <option value="$PROJECT_DIR$/src/interpreter/impl/basic.clj" />
+        <option value="$PROJECT_DIR$/src/interpreter/printer.clj" />
+        <option value="$PROJECT_DIR$/src/interpreter/core.clj" />
+        <option value="$PROJECT_DIR$/src/interpreter/impl/type.clj" />
+        <option value="$PROJECT_DIR$/src/interpreter/driver.clj" />
+        <option value="$PROJECT_DIR$/project.clj" />
+        <option value="$PROJECT_DIR$/src/interpreter/impl/nondeterministic.clj" />
+        <option value="$PROJECT_DIR$/test/interpreter/default_test.clj" />
+        <option value="$PROJECT_DIR$/src/interpreter/type.clj" />
+        <option value="$PROJECT_DIR$/src/interpreter/impl/default.clj" />
+      </list>
+    </option>
+  </component>
+  <component name="MavenProjectNavigator">
+    <treeState>
+      <expand />
+      <select />
+    </treeState>
+  </component>
+  <component name="ProjectFrameBounds">
+    <option name="x" value="256" />
+    <option name="y" value="-1057" />
+    <option name="width" value="1410" />
+    <option name="height" value="924" />
+  </component>
+  <component name="ProjectView">
+    <navigator proportions="" version="1">
+      <autoscrollFromSource ProjectPane="true" />
+      <foldersAlwaysOnTop value="true" />
+    </navigator>
+    <panes>
+      <pane id="ProjectPane">
+        <subPane>
+          <expand>
+            <path>
+              <item name="interpreter" type="b2602c69:ProjectViewProjectNode" />
+              <item name="interpreter" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="interpreter" type="b2602c69:ProjectViewProjectNode" />
+              <item name="interpreter" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="interpreter" type="b2602c69:ProjectViewProjectNode" />
+              <item name="interpreter" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="interpreter" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="interpreter" type="b2602c69:ProjectViewProjectNode" />
+              <item name="interpreter" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="interpreter" type="462c0819:PsiDirectoryNode" />
+              <item name="impl" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="interpreter" type="b2602c69:ProjectViewProjectNode" />
+              <item name="interpreter" type="462c0819:PsiDirectoryNode" />
+              <item name="test" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="interpreter" type="b2602c69:ProjectViewProjectNode" />
+              <item name="interpreter" type="462c0819:PsiDirectoryNode" />
+              <item name="test" type="462c0819:PsiDirectoryNode" />
+              <item name="interpreter" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="interpreter" type="b2602c69:ProjectViewProjectNode" />
+              <item name="External Libraries" type="cb654da1:ExternalLibrariesNode" />
+            </path>
+          </expand>
+          <select />
+        </subPane>
+      </pane>
+      <pane id="PackagesPane" />
+      <pane id="Scope" />
+    </panes>
+  </component>
+  <component name="PropertiesComponent">
+    <property name="com.android.tools.idea.instantapp.provision.ProvisionBeforeRunTaskProvider.myTimeStamp" value="1549838755329" />
+    <property name="cursive.last.file.extension./Users/dumchev/IdeaProjects/clj/interpreter/src" value="clj" />
+    <property name="cursive.last.file.extension./Users/dumchev/IdeaProjects/clj/interpreter/test" value="clj" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+    <property name="settings.editor.selected.configurable" value="preferences.keymap" />
+  </component>
+  <component name="RecentsManager">
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/src/interpreter/impl" />
+    </key>
+  </component>
+  <component name="ReplState" timestamp="1549838736933">{:repl-history {:ide [], :local [{:command &quot;(defmulti eval-seq\n          ^{:private  true\n            :arglists '([sexp env])}\n          (fn [sexp _] (first sexp)))&quot;, :offset 120, :ns &quot;interpreter.impl.default&quot;} {:command &quot;(defmethod eval-seq 'def\n  [[_ &amp; operands] env]\n  (State. 'NIL\n          (let [[name exp] operands\n                value (eval exp env)]\n            (assoc env name value))))&quot;, :offset 174, :ns &quot;interpreter.impl.default&quot;} {:command &quot;(ns interpreter.default-test\n  (:require [clojure.test :refer :all]\n            [interpreter.impl.default :refer :all]))&quot;, :offset 120, :ns &quot;user&quot;} {:command &quot;(testing \&quot;primitives\&quot;\n  (is '3 (eval '3)))&quot;, :offset 42, :ns &quot;interpreter.default-test&quot;} {:command &quot;(testing \&quot;primitives\&quot;\n  (is '4 (eval '3)))&quot;, :offset 42, :ns &quot;interpreter.default-test&quot;} {:command &quot;(testing \&quot;Arithmetic\&quot;\n  (testing \&quot;with positive integers\&quot;\n    (is (= 4 (+ 2 2)))\n    (is (= 7 (+ 3 4))))\n  (testing \&quot;with negative integers\&quot;\n    (is (= -5 (+ -2 -2)))                                   ;error here\n    (is (= -1 (+ 3 -4)))))&quot;, :offset 239, :ns &quot;interpreter.default-test&quot;} {:command &quot;(testing \&quot;primitives\&quot;\n  (testing\n    (is '4 (eval '3))))&quot;, :offset 56, :ns &quot;interpreter.default-test&quot;} {:command &quot;(testing \&quot;primitives\&quot;\n  (testing\n    (is '3 (eval '3))))&quot;, :offset 56, :ns &quot;interpreter.default-test&quot;} {:command &quot;(deftest \&quot;a\&quot;\n  (testing \&quot;primitives\&quot;\n    (is '3 (eval '3))))&quot;, :offset 60, :ns &quot;interpreter.default-test&quot;} {:command &quot;(deftest \&quot;a\&quot;\n  (testing \n    (is '3 (eval '3))))&quot;, :offset 48, :ns &quot;interpreter.default-test&quot;} {:command &quot;(deftest \n  (testing \n    (is '3 (eval '3))))&quot;, :offset 45, :ns &quot;interpreter.default-test&quot;} {:command &quot;(ns interpreter.default-test\n  (:require [clojure.test :refer :all]\n            [interpreter.impl.default :as i]))&quot;, :offset 114, :ns &quot;user&quot;} {:command &quot;(testing \&quot;primitives\&quot;\n  (is '4 (i/eval '3)))&quot;, :offset 44, :ns &quot;interpreter.default-test&quot;} {:command &quot;(testing \&quot;primitives\&quot;\n  (is '3 (i/eval '3)))&quot;, :offset 44, :ns &quot;interpreter.default-test&quot;} {:command &quot;(i/eval '3)&quot;, :offset 11, :ns &quot;interpreter.default-test&quot;} {:command &quot;(i/eval '4)&quot;, :offset 11, :ns &quot;interpreter.default-test&quot;} {:command &quot;(deftest \&quot;test\&quot;\n  (testing \&quot;primitives\&quot;\n    (is '3 (i/eval '3))))&quot;, :offset 65, :ns &quot;interpreter.default-test&quot;} {:command &quot;(deftest alternate-use\n  (testing \&quot;test a vector of `is`\&quot;\n      [(is true)\n       (is false)\n       (is true)]))&quot;, :offset 112, :ns &quot;interpreter.default-test&quot;} {:command &quot;(alternate-use)&quot;, :offset 15, :ns &quot;interpreter.default-test&quot;} {:command &quot;(deftest alternate-use\n  (testing \&quot;test a vector of `is`\&quot;\n      [(is true)\n       (is true)\n       (is true)]))&quot;, :offset 111, :ns &quot;interpreter.default-test&quot;} {:command &quot;(deftest \&quot;test\&quot;\n  (testing \&quot;primitives\&quot;\n    [(is (= '3 (i/eval '3)))]))&quot;, :offset 71, :ns &quot;interpreter.default-test&quot;} {:command &quot;(deftest \&quot;test\&quot;\n  (testing \&quot;primitives\&quot;\n    [(is true)]))&quot;, :offset 57, :ns &quot;interpreter.default-test&quot;} {:command &quot;(deftest test-eval\n  (testing \&quot;primitives\&quot;\n    [(is (= '3 (i/eval '3)))]))&quot;, :offset 74, :ns &quot;interpreter.default-test&quot;} {:command &quot;(deftest test-eval\n  (testing \n    [(is (= '3 (i/eval '3)))\n     ]))&quot;, :offset 68, :ns &quot;interpreter.default-test&quot;} {:command &quot;(deftest test-eval\n  (testing \n    [(is (= '4 (i/eval '3)))\n     ]))&quot;, :offset 68, :ns &quot;interpreter.default-test&quot;} {:command &quot;(test-eval)&quot;, :offset 11, :ns &quot;interpreter.default-test&quot;} {:command &quot;(defn expect [a b]\n  (is (= a b)))&quot;, :offset 34, :ns &quot;interpreter.default-test&quot;} {:command &quot;(deftest test-eval-primitives\n  (testing\n    [(expect '3 (i/eval '3))\n     ]))&quot;, :offset 78, :ns &quot;interpreter.default-test&quot;} {:command &quot;(deftest test-eval-primitives\n  (testing\n    [(expect '22 (i/eval '3))\n     ]))&quot;, :offset 79, :ns &quot;interpreter.default-test&quot;} {:command &quot;(test-eval-primitives)&quot;, :offset 22, :ns &quot;interpreter.default-test&quot;} {:command &quot;(ns interpreter.default-test\n  (:refer-clojure :exclude [eval true?])\n  (:require [clojure.test :refer :all]\n            [expectations :refer :all]\n            [interpreter.impl.default :refer :all]))&quot;, :offset 200, :ns &quot;user&quot;} {:command &quot;(deftest primitive-eval\n  (testing\n    [\n     (is (= '3 (eval '3)))\n     ]))&quot;, :offset 76, :ns &quot;interpreter.default-test&quot;} {:command &quot;(deftest primitive-eval\n  (testing\n    [\n     (is (= '3 (eval '3)))\n     (is (= 'TRUE (eval 'TRUE)))\n     ]))&quot;, :offset 109, :ns &quot;interpreter.default-test&quot;} {:command &quot;(deftest primitive-eval\n  (testing\n    [\n     (is (= '3 (eval '3)))\n     (is (= 'TiRUE (eval 'TRUE)))\n     ]))&quot;, :offset 110, :ns &quot;interpreter.default-test&quot;} {:command &quot;(defmacro expect\n  [a b]\n  `(~is ~a ~b))&quot;, :offset 40, :ns &quot;interpreter.default-test&quot;} {:command &quot;(defmacro expect\n  [a b]\n  '(is a b))&quot;, :offset 37, :ns &quot;interpreter.default-test&quot;} {:command &quot;(defmacro expect\n  [a b]\n  '(is 'a 'b))&quot;, :offset 39, :ns &quot;interpreter.default-test&quot;} {:command &quot;(defmacro expect\n  [a b]\n  '(is ~a ~b))&quot;, :offset 39, :ns &quot;interpreter.default-test&quot;} {:command &quot;(defmacro expect\n  [a b]\n  `(is ~a ~b))&quot;, :offset 39, :ns &quot;interpreter.default-test&quot;} {:command &quot;(deftest primitive-eval\n  (testing\n    [\n     (is (= '2 (eval '3)))\n     (expect '2 '(eval '3))\n     (is (= 'TRUE (eval 'TRUE)))\n     ]))&quot;, :offset 137, :ns &quot;interpreter.default-test&quot;} {:command &quot;(defmacro expect\n  [a b]\n  `(is a ~b))&quot;, :offset 38, :ns &quot;interpreter.default-test&quot;} {:command &quot;(defmacro expect\n  [a b]\n  `(is 'a ~b))&quot;, :offset 39, :ns &quot;interpreter.default-test&quot;} {:command &quot;(defmacro expect\n  [a b]\n  `(is 'a 'b))&quot;, :offset 39, :ns &quot;interpreter.default-test&quot;} {:command &quot;(defmacro expect\n  [a b]\n  (list is a b))&quot;, :offset 41, :ns &quot;interpreter.default-test&quot;} {:command &quot;(defmacro expect\n  [a b]\n  (list 'is a b))&quot;, :offset 42, :ns &quot;interpreter.default-test&quot;} {:command &quot;(macroexpand '(when true 1))&quot;, :offset 28, :ns &quot;interpreter.default-test&quot;} {:command &quot;(defmacro expect\n  [a b]\n  (list 'is (= a b)))&quot;, :offset 46, :ns &quot;interpreter.default-test&quot;} {:command &quot;(defmacro expect\n  [a b]\n  (list 'is (list '= a b)))&quot;, :offset 52, :ns &quot;interpreter.default-test&quot;} {:command &quot;(defmacro expect\n  [a b]\n  ~(is (= ~a ~b)))&quot;, :offset 43, :ns &quot;interpreter.default-test&quot;} {:command &quot;(deftest primitive-eval\n  (testing\n    [\n     (is (= '3 (eval '3)))\n     (expect '2 '(eval '3))\n     (is (= 'TRUE (eval 'TRUE)))\n     ]))&quot;, :offset 137, :ns &quot;interpreter.default-test&quot;} {:command &quot;(deftest primitive-eval\n  (testing\n    [\n     (is (= '2 (eval '3)))\n     ;(expect '3 '(eval '3))\n     (is (= 'TRUE (eval 'TRUE)))\n     ]))&quot;, :offset 138, :ns &quot;interpreter.default-test&quot;} {:command &quot;(defmacro expect\n  [a b]\n  (list 'is (list '= a b))\n  ;`(is (= ~a ~b))\n  )&quot;, :offset 74, :ns &quot;interpreter.default-test&quot;} {:command &quot;(deftest primitive-eval\n  (testing\n    [\n     (is (= '2 (eval '3)))\n     (expect '3 '(eval '3))\n     (is (= 'TRUE (eval 'TRUE)))\n     ]))&quot;, :offset 137, :ns &quot;interpreter.default-test&quot;} {:command &quot;(defmacro expect\n  [a b]\n  (list 'is (list '= a ~b))\n  ;`(is (= ~a ~b))\n  )&quot;, :offset 75, :ns &quot;interpreter.default-test&quot;} {:command &quot;(deftest primitive-eval\n  (testing\n    [\n     (is (= '3 (eval '3)))\n     (expect '3 '(eval '3))\n     (is (= 'TRUE (eval 'TRUE)))\n     ]))&quot;, :offset 137, :ns &quot;interpreter.default-test&quot;} {:command &quot;(macroexpand '(expect '2 '(eval '3)))&quot;, :offset 37, :ns &quot;interpreter.default-test&quot;} {:command &quot;(defmacro expect\n  [a b]\n  `(is (= ~a ~b))\n  )&quot;, :offset 46, :ns &quot;interpreter.default-test&quot;} {:command &quot;(deftest primitive-eval\n  (testing\n    [\n     (is (= '3 (eval '3)))\n     (expect '3 (eval '3))\n     (is (= 'TRUE (eval 'TRUE)))\n     ]))&quot;, :offset 136, :ns &quot;interpreter.default-test&quot;} {:command &quot;(deftest primitive-eval\n  (testing\n    [\n     (is (= '3 (eval '3)))\n     (expect '2 (eval '3))\n     (is (= 'TRUE (eval 'TRUE)))\n     ]))&quot;, :offset 136, :ns &quot;interpreter.default-test&quot;} {:command &quot;(deftest primitive-eval\n  (testing\n    [\n     (expect '3 (eval '3))\n     (expect 'TRUEd (eval 'TRUE))\n     ]))&quot;, :offset 110, :ns &quot;interpreter.default-test&quot;} {:command &quot;(deftest primitive-eval\n  (testing\n    [\n     (expect '3 (eval '3))\n     (expect 'TRUE (eval 'TRUE))\n     ]))&quot;, :offset 109, :ns &quot;interpreter.default-test&quot;} {:command &quot;(deftest primitive-eval\n  (testing\n    [\n     (expect '3 (eval '3))\n     (expect 'TRUE (eval 'TRUE))\n     (expect 2 (eval 'a {'a 2}))\n     ]))&quot;, :offset 142, :ns &quot;interpreter.default-test&quot;} {:command &quot;(deftest env-test\n  (testing\n    [\n     (expect 2 (eval 'a {'a 2}))\n     ]))&quot;, :offset 76, :ns &quot;interpreter.default-test&quot;} {:command &quot;(env-test)&quot;, :offset 10, :ns &quot;interpreter.default-test&quot;} {:command &quot;(deftest primitive-eval\n  (testing\n    [\n     (expect '3 (eval '3))\n\n     (expect 'TRUE (eval 'TRUE))\n\n     (expect 2 (eval '(+ 1 1)))\n\n     (expect 5 (eval '(+ (+ 1 2) 1 1)))\n\n     ]))&quot;, :offset 185, :ns &quot;interpreter.default-test&quot;} {:command &quot;(deftest env-eval\n  (testing\n    [\n     (expect 2 (eval 'a {'a 2}))\n\n     ]))&quot;, :offset 77, :ns &quot;interpreter.default-test&quot;} {:command &quot;(deftest seq-eval\n  (testing\n    [\n     (expect {'a 3}\n             (:env (eval-sexp '(def a 3) {})))\n     ]))&quot;, :offset 110, :ns &quot;interpreter.default-test&quot;} {:command &quot;(declare apply primitive-procedure eval primitive-procedure-name? primitive-procedure-map)\n\n(defn- eval-if [[_ pred consequent alternative] env]\n  (if (true? (eval pred env))\n    (eval consequent env)\n    (if (nil? alternative)\n      'NIL\n      (eval alternative env))))\n\n(def ^:private primitive-procedure-map {'+      +\n                                        '-      -\n                                        '*      *\n                                        '/      /\n                                        '=      (fn [&amp; args]\n                                                  (if (clj-apply = args) 'TRUE 'FALSE))\n                                        'square (fn [x] (* x x))})\n(def ^:private primitive-procedure-name? (set (keys primitive-procedure-map)))\n(def ^:private primitive-procedure? (set (vals primitive-procedure-map)))\n(def ^:private compound-procedure? map?)\n\n(defn make-if\n  ([pred consequence]\n   (list 'if pred consequence))\n  ([pred consequence alternative]\n   (list 'if pred consequence alternative)))\n\n(defn make-fn [params body]\n  (list 'fn params body))\n\n(defn pairs-&gt;if [[pred consequence &amp; pairs]]\n  (if (nil? pairs)\n    (make-if pred consequence)\n    (make-if pred\n             consequence\n             (pairs-&gt;if pairs))))\n\n(defn cond-&gt;if [[_ &amp; pairs]]\n  (pairs-&gt;if pairs))\n\n(defn let-&gt;fn [[_ bindings body]]\n  (let [params (take-nth 2 bindings)\n        args   (take-nth 2 (rest bindings))]\n    (cons\n      (make-fn params body)\n      args)))\n\n(defn- eval-let [[bindings body] env]\n  (eval body (merge env\n                    (map-vals #(eval % env) (clj-apply hash-map bindings)))))\n\n\n(defmulti eval-seq (fn [sexp env] (first sexp)))\n\n(defmethod eval-seq 'def\n  [[_ &amp; operands] env]\n  (State. 'NIL\n          (let [[name exp] operands\n                value (eval exp env)]\n            (assoc env name value))))\n\n(defmethod eval-seq 'defn\n  [[_ &amp; operands] env]\n  (State. 'NIL\n          (let [[name params body] operands\n                new-fn (Proc. params body env name)]\n            (assoc env name new-fn))))\n\n(defmethod eval-seq 'if\n  [sexp env]\n  (State. (eval-if sexp env) env))&quot;, :offset 2119, :ns &quot;interpreter.impl.default&quot;} {:command &quot;(defn eval-sexp [sexp env]\n  (cond\n    (self-evaluating? sexp)                                 ; If it is self evaluating\n    (State. sexp env)                                       ; return it and dont change env\n\n    (primitive-procedure-name? sexp)                        ; if it's a primative procedure\n    (State. (primitive-procedure-map sexp) env)             ; look it up in primitive-procedure-map\n\n    (symbol? sexp)                                          ; If it is a symbol\n    (State. (env sexp) env)                                 ; Look it up in env, env unchanged\n\n    (seq? sexp)                                             ; Otherwise, it's a sequence\n    (let [[op &amp; operands] sexp]                             ; We destructure the operator and operands\n      (cond\n        (= op 'cond)\n        (eval-sexp (cond-&gt;if sexp) env)\n\n        (= op 'let)\n        (eval-sexp (let-&gt;fn sexp) env)\n\n        (= op 'fn)                                          ; If it's a fn\n        (let [[params body] operands]                       ; destructure the params and body from operands\n          (State. (Proc. params                             ; Return a Proc of the parameters\n                         body                               ; and body\n                         env                                ; that closes over the current env\n                         nil)                               ; and does not have a name\n                  env))                                     ; without changing the environment\n\n        :else                                               ; Otherwise\n        (State. (apply (eval op env)                        ; We assume it's a function call and apply the evaluated operator\n                       (map (fn [operand]                   ;   (which may be a primitive a Proc)\n                              (eval operand env))           ; to the evaluated operands\n                            operands))\n                env)))                                      ; again, without changing the environment\n\n    :else\n    (error \&quot;EVAL FAIL: \&quot; sexp)))&quot;, :offset 2104, :ns &quot;interpreter.impl.default&quot;} {:command &quot;(defn- apply [proc args]\n  (cond\n    (primitive-procedure? proc)                             ; if it's a primitive procedure\n    (clj-apply proc args)                                   ; apply it (in Clojure) to the args\n\n    (compound-procedure? proc)                              ; if it's a compound procedure\n    (eval (:body proc)                                      ; evaluate the body\n          (merge                                            ; in a new environment made\n            (:env proc)                                     ; by taking the environment closed over on creation\n            {(:name proc) proc}                             ; adding a reference to the proc (if it has one)\n            (zipmap (:params proc)                          ; and assigning the formal parameters to arguments\n                    args)))\n\n    :else\n    (error \&quot;APPLY FAIL: \&quot; proc args)))&quot;, :offset 890, :ns &quot;interpreter.impl.default&quot;} {:command &quot;(defn- next-state [last-state sexp]\n  (let [env (:env last-state)]\n    (eval-sexp sexp env)))&quot;, :offset 93, :ns &quot;interpreter.impl.default&quot;} {:command &quot;(defn reduce-state [initial-state sexps]\n  (reduce next-state initial-state sexps))&quot;, :offset 83, :ns &quot;interpreter.impl.default&quot;} {:command &quot;(defn eval-program [sexps]\n  (:result (reduce-state initial-state sexps)))&quot;, :offset 74, :ns &quot;interpreter.impl.default&quot;} {:command &quot;(:env (eval-sexp '(def a 3) {}))&quot;, :offset 32, :ns &quot;interpreter.impl.default&quot;} {:command &quot;(declare apply primitive-procedure eval primitive-procedure-name? primitive-procedure-map)\n\n(defn- eval-if [[_ pred consequent alternative] env]\n  (if (true? (eval pred env))\n    (eval consequent env)\n    (if (nil? alternative)\n      'NIL\n      (eval alternative env))))\n\n(def ^:private primitive-procedure-map {'+      +\n                                        '-      -\n                                        '*      *\n                                        '/      /\n                                        '=      (fn [&amp; args]\n                                                  (if (clj-apply = args) 'TRUE 'FALSE))\n                                        'square (fn [x] (* x x))})\n(def ^:private primitive-procedure-name? (set (keys primitive-procedure-map)))\n(def ^:private primitive-procedure? (set (vals primitive-procedure-map)))\n(def ^:private compound-procedure? map?)\n\n(defn make-if\n  ([pred consequence]\n   (list 'if pred consequence))\n  ([pred consequence alternative]\n   (list 'if pred consequence alternative)))\n\n(defn make-fn [params body]\n  (list 'fn params body))\n\n(defn pairs-&gt;if [[pred consequence &amp; pairs]]\n  (if (nil? pairs)\n    (make-if pred consequence)\n    (make-if pred\n             consequence\n             (pairs-&gt;if pairs))))\n\n(defn cond-&gt;if [[_ &amp; pairs]]\n  (pairs-&gt;if pairs))\n\n(defn let-&gt;fn [[_ bindings body]]\n  (let [params (take-nth 2 bindings)\n        args   (take-nth 2 (rest bindings))]\n    (cons\n      (make-fn params body)\n      args)))\n\n(defn- eval-let [[bindings body] env]\n  (eval body (merge env\n                    (map-vals #(eval % env) (clj-apply hash-map bindings)))))\n\n\n(defmulti eval-seq (fn [sexp env] (first sexp)))\n\n(defmethod eval-seq 'def\n  [[_ &amp; operands] env]\n  (State. 'NIL\n          (let [[name exp] operands\n                value (eval exp env)]\n            (assoc env name value))))\n\n(defmethod eval-seq 'defn\n  [[_ &amp; operands] env]\n  (State. 'NIL\n          (let [[name params body] operands\n                new-fn (Proc. params body env name)]\n            (assoc env name new-fn))))\n\n(defmethod eval-seq 'if\n  [sexp env]\n  (State. (eval-if sexp env) env))\n\n(defmethod eval-seq 'cond\n  [sexp env]\n  (eval-seq (cond-&gt;if sexp) env))\n\n(defmethod eval-seq 'let\n  [sexp env]\n  (eval-seq (let-&gt;fn sexp) env))\n\n(defmethod eval-seq 'fn\n  [[op &amp; operands] env]\n  (let [[params body] operands]\n    (State. (Proc. params\n                   body\n                   env\n                   nil)\n            env)))\n\n(defmethod eval-seq :default\n  [[op &amp; operands] env]\n  (State. (apply (eval op env)\n                 (map (fn [operand]\n                        (eval operand env))\n                      operands))\n          env))\n\n(defn eval-sexp [sexp env]\n  (cond\n    (self-evaluating? sexp)\n    (State. sexp env)\n\n    (primitive-procedure-name? sexp)\n    (State. (primitive-procedure-map sexp) env)\n\n    (symbol? sexp)\n    (State. (env sexp) env)\n\n    (seq? sexp)\n    (eval-seq sexp env)\n\n    :else\n    (error \&quot;EVAL FAIL: \&quot; sexp)))\n\n(defn- apply [proc args]\n  (cond\n    (primitive-procedure? proc)\n    (clj-apply proc args)\n\n    (compound-procedure? proc)\n    (eval (:body proc)\n          (merge\n            (:env proc)\n            {(:name proc) proc}\n            (zipmap (:params proc)\n                    args)))\n\n    :else\n    (error \&quot;APPLY FAIL: \&quot; proc args)))\n\n(defn eval\n  ([sexp] (eval sexp initial-state))\n  ([sexp env]\n   (:result (eval-sexp sexp env))))\n\n(defn- next-state [last-state sexp]\n  (let [env (:env last-state)]\n    (eval-sexp sexp env)))\n\n(defn reduce-state [initial-state sexps]\n  (reduce next-state initial-state sexps))\n\n(defn eval-program [sexps]\n  (:result (reduce-state initial-state sexps)))&quot;, :offset 3669, :ns &quot;interpreter.impl.default&quot;} {:command &quot;(ns interpreter.default-test\n  (:refer-clojure :exclude [eval true?])\n  (:require [clojure.test :refer :all]\n            [interpreter.impl.default :refer :all]))&quot;, :offset 161, :ns &quot;user&quot;} {:command &quot;(defmacro expect\n  [a b]\n  `(is (= ~a ~b)))&quot;, :offset 43, :ns &quot;interpreter.default-test&quot;} {:command &quot;(deftest primitive-eval\n  (testing\n    [\n     (expect '3 (eval '3))\n\n     (expect 'TRUE (eval 'TRUE))\n\n     (expect 2 (eval '(+ 1 1)))\n\n     (expect 5 (eval '(+ (+ 1 2) 1 1)))\n\n     (expect 3\n             (eval-program '[3]))\n     ]))&quot;, :offset 234, :ns &quot;interpreter.default-test&quot;} {:command &quot;(deftest env-eval\n  (testing\n    [\n     (expect 2 (eval 'a {'a 2}))\n\n     (expect 3\n             (eval-program\n               '[(def a 3)\n                 a]))\n\n     (expect {'a 3}\n             (:env (eval-sexp '(def a 3) {})))\n     ]))&quot;, :offset 236, :ns &quot;interpreter.default-test&quot;} {:command &quot;(deftest seq-eval\n  (testing\n    [\n     (expect '2\n             (eval '(if TRUE 2 3)))\n\n     (expect '3\n             (eval '(if FALSE 2 3)))\n\n     (expect '(if test\n                result)\n             (cond-&gt;if '(cond test result)))\n\n     (expect '(if c1\n                r1\n                (if c2\n                  r2))\n             (cond-&gt;if '(cond c1 r1\n                              c2 r2)))\n\n     (expect 3\n             (eval '(if TRUE 3)))\n\n     (expect '(if TRUE 3)\n             (cond-&gt;if '(cond TRUE\n                              3\n                              )))\n\n     (expect 3\n             (eval '(cond TRUE 3)))\n\n     (expect 2\n             (eval '((fn [x] x) 2)))\n\n     (expect 4\n        (eval-program '[(def f (fn [y] y))\n                        (f 4)]))\n\n     (expect 25\n        (eval-program '[(def square (fn [x] (* x x)))\n                        (+ (square 3) (square 4))]))\n\n     (expect 1\n        (eval-program '[(if TRUE 1 2)]))\n\n     (expect 2\n        (eval-program '[(if FALSE 1 2)]))\n\n     (expect 'NIL\n             (eval '(if FALSE 1)))\n\n     (expect 1\n             (eval-program '[(def a 1)\n                             (if TRUE 1)\n                             a]))\n\n     (expect 8\n             (eval-program '[(def add-n (fn [n]\n                                          (fn [r]\n                                            (+ n r))))\n                             ((add-n 3) 5)]))\n\n     (expect '((fn [a c]\n                 (+ a c))\n                b d)\n             (let-&gt;fn '(let [a b\n                             c d]\n                         (+ a c))))\n\n     (expect 3\n             (eval '(let [a 3]\n                      a)))\n\n     (expect 5\n             (eval '(let [f (fn [x] (+ x 2))]\n                      (f 3))))\n\n     ]))&quot;, :offset 1761, :ns &quot;interpreter.default-test&quot;} {:command &quot;(primitive-eval)&quot;, :offset 16, :ns &quot;interpreter.default-test&quot;} {:command &quot;(env-eval)&quot;, :offset 10, :ns &quot;interpreter.default-test&quot;} {:command &quot;(deftest seq-eval\n  (testing\n    [\n     (expect '2\n             (eval '(if TRUE 2 3)))\n\n     ;(expect '3\n     ;        (eval '(if FALSE 2 3)))\n     ;\n     ;(expect '(if test\n     ;           result)\n     ;        (cond-&gt;if '(cond test result)))\n     ;\n     ;(expect '(if c1\n     ;           r1\n     ;           (if c2\n     ;             r2))\n     ;        (cond-&gt;if '(cond c1 r1\n     ;                         c2 r2)))\n     ;\n     ;(expect 3\n     ;        (eval '(if TRUE 3)))\n     ;\n     ;(expect '(if TRUE 3)\n     ;        (cond-&gt;if '(cond TRUE\n     ;                         3\n     ;                         )))\n     ;\n     ;(expect 3\n     ;        (eval '(cond TRUE 3)))\n     ;\n     ;(expect 2\n     ;        (eval '((fn [x] x) 2)))\n     ;\n     ;(expect 4\n     ;   (eval-program '[(def f (fn [y] y))\n     ;                   (f 4)]))\n     ;\n     ;(expect 25\n     ;   (eval-program '[(def square (fn [x] (* x x)))\n     ;                   (+ (square 3) (square 4))]))\n     ;\n     ;(expect 1\n     ;   (eval-program '[(if TRUE 1 2)]))\n     ;\n     ;(expect 2\n     ;   (eval-program '[(if FALSE 1 2)]))\n     ;\n     ;(expect 'NIL\n     ;        (eval '(if FALSE 1)))\n     ;\n     ;(expect 1\n     ;        (eval-program '[(def a 1)\n     ;                        (if TRUE 1)\n     ;                        a]))\n     ;\n     ;(expect 8\n     ;        (eval-program '[(def add-n (fn [n]\n     ;                                     (fn [r]\n     ;                                       (+ n r))))\n     ;                        ((add-n 3) 5)]))\n     ;\n     ;(expect '((fn [a c]\n     ;            (+ a c))\n     ;           b d)\n     ;        (let-&gt;fn '(let [a b\n     ;                        c d]\n     ;                    (+ a c))))\n     ;\n     ;(expect 3\n     ;        (eval '(let [a 3]\n     ;                 a)))\n     ;\n     ;(expect 5\n     ;        (eval '(let [f (fn [x] (+ x 2))]\n     ;                 (f 3))))\n     ]))&quot;, :offset 1910, :ns &quot;interpreter.default-test&quot;} {:command &quot;(deftest seq-eval\n  (testing\n    [\n     (expect '2\n             (eval '(if TRUE 2 3)))\n\n     (expect '3\n             (eval '(if FALSE 2 3)))\n\n     ;(expect '(if test\n     ;           result)\n     ;        (cond-&gt;if '(cond test result)))\n     ;\n     ;(expect '(if c1\n     ;           r1\n     ;           (if c2\n     ;             r2))\n     ;        (cond-&gt;if '(cond c1 r1\n     ;                         c2 r2)))\n     ;\n     ;(expect 3\n     ;        (eval '(if TRUE 3)))\n     ;\n     ;(expect '(if TRUE 3)\n     ;        (cond-&gt;if '(cond TRUE\n     ;                         3\n     ;                         )))\n     ;\n     ;(expect 3\n     ;        (eval '(cond TRUE 3)))\n     ;\n     ;(expect 2\n     ;        (eval '((fn [x] x) 2)))\n     ;\n     ;(expect 4\n     ;   (eval-program '[(def f (fn [y] y))\n     ;                   (f 4)]))\n     ;\n     ;(expect 25\n     ;   (eval-program '[(def square (fn [x] (* x x)))\n     ;                   (+ (square 3) (square 4))]))\n     ;\n     ;(expect 1\n     ;   (eval-program '[(if TRUE 1 2)]))\n     ;\n     ;(expect 2\n     ;   (eval-program '[(if FALSE 1 2)]))\n     ;\n     ;(expect 'NIL\n     ;        (eval '(if FALSE 1)))\n     ;\n     ;(expect 1\n     ;        (eval-program '[(def a 1)\n     ;                        (if TRUE 1)\n     ;                        a]))\n     ;\n     ;(expect 8\n     ;        (eval-program '[(def add-n (fn [n]\n     ;                                     (fn [r]\n     ;                                       (+ n r))))\n     ;                        ((add-n 3) 5)]))\n     ;\n     ;(expect '((fn [a c]\n     ;            (+ a c))\n     ;           b d)\n     ;        (let-&gt;fn '(let [a b\n     ;                        c d]\n     ;                    (+ a c))))\n     ;\n     ;(expect 3\n     ;        (eval '(let [a 3]\n     ;                 a)))\n     ;\n     ;(expect 5\n     ;        (eval '(let [f (fn [x] (+ x 2))]\n     ;                 (f 3))))\n     ]))&quot;, :offset 1902, :ns &quot;interpreter.default-test&quot;} {:command &quot;(deftest seq-eval\n  (testing\n    [\n     (expect '2\n             (eval '(if TRUE 2 3)))\n\n     (expect '3\n             (eval '(if FALSE 2 3)))\n\n     (expect '(if test\n                result)\n             (cond-&gt;if '(cond test result)))\n     \n     ;(expect '(if c1\n     ;           r1\n     ;           (if c2\n     ;             r2))\n     ;        (cond-&gt;if '(cond c1 r1\n     ;                         c2 r2)))\n     ;\n     ;(expect 3\n     ;        (eval '(if TRUE 3)))\n     ;\n     ;(expect '(if TRUE 3)\n     ;        (cond-&gt;if '(cond TRUE\n     ;                         3\n     ;                         )))\n     ;\n     ;(expect 3\n     ;        (eval '(cond TRUE 3)))\n     ;\n     ;(expect 2\n     ;        (eval '((fn [x] x) 2)))\n     ;\n     ;(expect 4\n     ;   (eval-program '[(def f (fn [y] y))\n     ;                   (f 4)]))\n     ;\n     ;(expect 25\n     ;   (eval-program '[(def square (fn [x] (* x x)))\n     ;                   (+ (square 3) (square 4))]))\n     ;\n     ;(expect 1\n     ;   (eval-program '[(if TRUE 1 2)]))\n     ;\n     ;(expect 2\n     ;   (eval-program '[(if FALSE 1 2)]))\n     ;\n     ;(expect 'NIL\n     ;        (eval '(if FALSE 1)))\n     ;\n     ;(expect 1\n     ;        (eval-program '[(def a 1)\n     ;                        (if TRUE 1)\n     ;                        a]))\n     ;\n     ;(expect 8\n     ;        (eval-program '[(def add-n (fn [n]\n     ;                                     (fn [r]\n     ;                                       (+ n r))))\n     ;                        ((add-n 3) 5)]))\n     ;\n     ;(expect '((fn [a c]\n     ;            (+ a c))\n     ;           b d)\n     ;        (let-&gt;fn '(let [a b\n     ;                        c d]\n     ;                    (+ a c))))\n     ;\n     ;(expect 3\n     ;        (eval '(let [a 3]\n     ;                 a)))\n     ;\n     ;(expect 5\n     ;        (eval '(let [f (fn [x] (+ x 2))]\n     ;                 (f 3))))\n     ]))&quot;, :offset 1898, :ns &quot;interpreter.default-test&quot;} {:command &quot;(deftest seq-eval\n  (testing\n    [\n     (expect '2\n             (eval '(if TRUE 2 3)))\n\n     (expect '3\n             (eval '(if FALSE 2 3)))\n\n     (expect '(if test\n                result)\n             (cond-&gt;if '(cond test result)))\n     \n     (expect '(if c1\n                r1\n                (if c2\n                  r2))\n             (cond-&gt;if '(cond c1 r1\n                              c2 r2)))\n     ;\n     ;(expect 3\n     ;        (eval '(if TRUE 3)))\n     ;\n     ;(expect '(if TRUE 3)\n     ;        (cond-&gt;if '(cond TRUE\n     ;                         3\n     ;                         )))\n     ;\n     ;(expect 3\n     ;        (eval '(cond TRUE 3)))\n     ;\n     ;(expect 2\n     ;        (eval '((fn [x] x) 2)))\n     ;\n     ;(expect 4\n     ;   (eval-program '[(def f (fn [y] y))\n     ;                   (f 4)]))\n     ;\n     ;(expect 25\n     ;   (eval-program '[(def square (fn [x] (* x x)))\n     ;                   (+ (square 3) (square 4))]))\n     ;\n     ;(expect 1\n     ;   (eval-program '[(if TRUE 1 2)]))\n     ;\n     ;(expect 2\n     ;   (eval-program '[(if FALSE 1 2)]))\n     ;\n     ;(expect 'NIL\n     ;        (eval '(if FALSE 1)))\n     ;\n     ;(expect 1\n     ;        (eval-program '[(def a 1)\n     ;                        (if TRUE 1)\n     ;                        a]))\n     ;\n     ;(expect 8\n     ;        (eval-program '[(def add-n (fn [n]\n     ;                                     (fn [r]\n     ;                                       (+ n r))))\n     ;                        ((add-n 3) 5)]))\n     ;\n     ;(expect '((fn [a c]\n     ;            (+ a c))\n     ;           b d)\n     ;        (let-&gt;fn '(let [a b\n     ;                        c d]\n     ;                    (+ a c))))\n     ;\n     ;(expect 3\n     ;        (eval '(let [a 3]\n     ;                 a)))\n     ;\n     ;(expect 5\n     ;        (eval '(let [f (fn [x] (+ x 2))]\n     ;                 (f 3))))\n     ]))&quot;, :offset 1892, :ns &quot;interpreter.default-test&quot;} {:command &quot;(deftest seq-eval\n  (testing\n    [\n     (expect '2\n             (eval '(if TRUE 2 3)))\n\n     (expect '3\n             (eval '(if FALSE 2 3)))\n\n     (expect '(if test\n                result)\n             (cond-&gt;if '(cond test result)))\n     \n     (expect '(if c1\n                r1\n                (if c2\n                  r2))\n             (cond-&gt;if '(cond c1 r1\n                              c2 r2)))\n     \n     (expect 3\n             (eval '(if TRUE 3)))\n     \n     ;(expect '(if TRUE 3)\n     ;        (cond-&gt;if '(cond TRUE\n     ;                         3\n     ;                         )))\n     ;\n     ;(expect 3\n     ;        (eval '(cond TRUE 3)))\n     ;\n     ;(expect 2\n     ;        (eval '((fn [x] x) 2)))\n     ;\n     ;(expect 4\n     ;   (eval-program '[(def f (fn [y] y))\n     ;                   (f 4)]))\n     ;\n     ;(expect 25\n     ;   (eval-program '[(def square (fn [x] (* x x)))\n     ;                   (+ (square 3) (square 4))]))\n     ;\n     ;(expect 1\n     ;   (eval-program '[(if TRUE 1 2)]))\n     ;\n     ;(expect 2\n     ;   (eval-program '[(if FALSE 1 2)]))\n     ;\n     ;(expect 'NIL\n     ;        (eval '(if FALSE 1)))\n     ;\n     ;(expect 1\n     ;        (eval-program '[(def a 1)\n     ;                        (if TRUE 1)\n     ;                        a]))\n     ;\n     ;(expect 8\n     ;        (eval-program '[(def add-n (fn [n]\n     ;                                     (fn [r]\n     ;                                       (+ n r))))\n     ;                        ((add-n 3) 5)]))\n     ;\n     ;(expect '((fn [a c]\n     ;            (+ a c))\n     ;           b d)\n     ;        (let-&gt;fn '(let [a b\n     ;                        c d]\n     ;                    (+ a c))))\n     ;\n     ;(expect 3\n     ;        (eval '(let [a 3]\n     ;                 a)))\n     ;\n     ;(expect 5\n     ;        (eval '(let [f (fn [x] (+ x 2))]\n     ;                 (f 3))))\n     ]))&quot;, :offset 1888, :ns &quot;interpreter.default-test&quot;} {:command &quot;(deftest seq-eval\n  (testing\n    [\n     (expect '2\n             (eval '(if TRUE 2 3)))\n\n     (expect '3\n             (eval '(if FALSE 2 3)))\n\n     (expect '(if test\n                result)\n             (cond-&gt;if '(cond test result)))\n     \n     (expect '(if c1\n                r1\n                (if c2\n                  r2))\n             (cond-&gt;if '(cond c1 r1\n                              c2 r2)))\n     \n     (expect 3\n             (eval '(if TRUE 3)))\n     \n     (expect '(if TRUE 3)\n             (cond-&gt;if '(cond TRUE\n                              3\n                              )))\n     \n     (expect 3\n             (eval '(cond TRUE 3)))\n     \n     (expect 2\n             (eval '((fn [x] x) 2)))\n     \n     (expect 4\n        (eval-program '[(def f (fn [y] y))\n                        (f 4)]))\n     \n     (expect 25\n        (eval-program '[(def square (fn [x] (* x x)))\n                        (+ (square 3) (square 4))]))\n     \n     ;(expect 1\n     ;   (eval-program '[(if TRUE 1 2)]))\n     ;\n     ;(expect 2\n     ;   (eval-program '[(if FALSE 1 2)]))\n     ;\n     ;(expect 'NIL\n     ;        (eval '(if FALSE 1)))\n     ;\n     ;(expect 1\n     ;        (eval-program '[(def a 1)\n     ;                        (if TRUE 1)\n     ;                        a]))\n     ;\n     ;(expect 8\n     ;        (eval-program '[(def add-n (fn [n]\n     ;                                     (fn [r]\n     ;                                       (+ n r))))\n     ;                        ((add-n 3) 5)]))\n     ;\n     ;(expect '((fn [a c]\n     ;            (+ a c))\n     ;           b d)\n     ;        (let-&gt;fn '(let [a b\n     ;                        c d]\n     ;                    (+ a c))))\n     ;\n     ;(expect 3\n     ;        (eval '(let [a 3]\n     ;                 a)))\n     ;\n     ;(expect 5\n     ;        (eval '(let [f (fn [x] (+ x 2))]\n     ;                 (f 3))))\n     ]))&quot;, :offset 1869, :ns &quot;interpreter.default-test&quot;} {:command &quot;(deftest seq-eval\n  (testing\n    [\n     (expect '2\n             (eval '(if TRUE 2 3)))\n\n     (expect '3\n             (eval '(if FALSE 2 3)))\n\n     (expect '(if test\n                result)\n             (cond-&gt;if '(cond test result)))\n     \n     (expect '(if c1\n                r1\n                (if c2\n                  r2))\n             (cond-&gt;if '(cond c1 r1\n                              c2 r2)))\n     \n     (expect 3\n             (eval '(if TRUE 3)))\n     \n     (expect '(if TRUE 3)\n             (cond-&gt;if '(cond TRUE\n                              3\n                              )))\n     \n     (expect 3\n             (eval '(cond TRUE 3)))\n     \n     ;(expect 2\n     ;        (eval '((fn [x] x) 2)))\n     ;\n     ;(expect 4\n     ;   (eval-program '[(def f (fn [y] y))\n     ;                   (f 4)]))\n     ;\n     ;(expect 25\n     ;   (eval-program '[(def square (fn [x] (* x x)))\n     ;                   (+ (square 3) (square 4))]))\n     ;\n     ;(expect 1\n     ;   (eval-program '[(if TRUE 1 2)]))\n     ;\n     ;(expect 2\n     ;   (eval-program '[(if FALSE 1 2)]))\n     ;\n     ;(expect 'NIL\n     ;        (eval '(if FALSE 1)))\n     ;\n     ;(expect 1\n     ;        (eval-program '[(def a 1)\n     ;                        (if TRUE 1)\n     ;                        a]))\n     ;\n     ;(expect 8\n     ;        (eval-program '[(def add-n (fn [n]\n     ;                                     (fn [r]\n     ;                                       (+ n r))))\n     ;                        ((add-n 3) 5)]))\n     ;\n     ;(expect '((fn [a c]\n     ;            (+ a c))\n     ;           b d)\n     ;        (let-&gt;fn '(let [a b\n     ;                        c d]\n     ;                    (+ a c))))\n     ;\n     ;(expect 3\n     ;        (eval '(let [a 3]\n     ;                 a)))\n     ;\n     ;(expect 5\n     ;        (eval '(let [f (fn [x] (+ x 2))]\n     ;                 (f 3))))\n     ]))&quot;, :offset 1880, :ns &quot;interpreter.default-test&quot;} {:command &quot;(deftest seq-eval\n  (testing\n    [\n     (expect '2\n             (eval '(if TRUE 2 3)))\n\n     (expect '3\n             (eval '(if FALSE 2 3)))\n\n     (expect '(if test\n                result)\n             (cond-&gt;if '(cond test result)))\n     \n     (expect '(if c1\n                r1\n                (if c2\n                  r2))\n             (cond-&gt;if '(cond c1 r1\n                              c2 r2)))\n     \n     (expect 3\n             (eval '(if TRUE 3)))\n     \n     (expect '(if TRUE 3)\n             (cond-&gt;if '(cond TRUE\n                              3\n                              )))\n     \n     (expect 3\n             (eval '(cond TRUE 3)))\n     \n     (expect 2\n             (eval '((fn [x] x) 2)))\n     \n     (expect 4\n        (eval-program '[(def f (fn [y] y))\n                        (f 4)]))\n     \n     ;(expect 25\n     ;   (eval-program '[(def square (fn [x] (* x x)))\n     ;                   (+ (square 3) (square 4))]))\n     ;\n     ;(expect 1\n     ;   (eval-program '[(if TRUE 1 2)]))\n     ;\n     ;(expect 2\n     ;   (eval-program '[(if FALSE 1 2)]))\n     ;\n     ;(expect 'NIL\n     ;        (eval '(if FALSE 1)))\n     ;\n     ;(expect 1\n     ;        (eval-program '[(def a 1)\n     ;                        (if TRUE 1)\n     ;                        a]))\n     ;\n     ;(expect 8\n     ;        (eval-program '[(def add-n (fn [n]\n     ;                                     (fn [r]\n     ;                                       (+ n r))))\n     ;                        ((add-n 3) 5)]))\n     ;\n     ;(expect '((fn [a c]\n     ;            (+ a c))\n     ;           b d)\n     ;        (let-&gt;fn '(let [a b\n     ;                        c d]\n     ;                    (+ a c))))\n     ;\n     ;(expect 3\n     ;        (eval '(let [a 3]\n     ;                 a)))\n     ;\n     ;(expect 5\n     ;        (eval '(let [f (fn [x] (+ x 2))]\n     ;                 (f 3))))\n     ]))&quot;, :offset 1873, :ns &quot;interpreter.default-test&quot;} {:command &quot;(deftest seq-eval\n  (testing\n    [\n     (expect '2\n             (eval '(if TRUE 2 3)))\n\n     (expect '3\n             (eval '(if FALSE 2 3)))\n\n     (expect '(if test\n                result)\n             (cond-&gt;if '(cond test result)))\n     \n     (expect '(if c1\n                r1\n                (if c2\n                  r2))\n             (cond-&gt;if '(cond c1 r1\n                              c2 r2)))\n     \n     (expect 3\n             (eval '(if TRUE 3)))\n     \n     (expect '(if TRUE 3)\n             (cond-&gt;if '(cond TRUE\n                              3\n                              )))\n     \n     (expect 3\n             (eval '(cond TRUE 3)))\n     \n     (expect 2\n             (eval '((fn [x] x) 2)))\n     \n     ;(expect 4\n     ;   (eval-program '[(def f (fn [y] y))\n     ;                   (f 4)]))\n     ;\n     ;(expect 25\n     ;   (eval-program '[(def square (fn [x] (* x x)))\n     ;                   (+ (square 3) (square 4))]))\n     ;\n     ;(expect 1\n     ;   (eval-program '[(if TRUE 1 2)]))\n     ;\n     ;(expect 2\n     ;   (eval-program '[(if FALSE 1 2)]))\n     ;\n     ;(expect 'NIL\n     ;        (eval '(if FALSE 1)))\n     ;\n     ;(expect 1\n     ;        (eval-program '[(def a 1)\n     ;                        (if TRUE 1)\n     ;                        a]))\n     ;\n     ;(expect 8\n     ;        (eval-program '[(def add-n (fn [n]\n     ;                                     (fn [r]\n     ;                                       (+ n r))))\n     ;                        ((add-n 3) 5)]))\n     ;\n     ;(expect '((fn [a c]\n     ;            (+ a c))\n     ;           b d)\n     ;        (let-&gt;fn '(let [a b\n     ;                        c d]\n     ;                    (+ a c))))\n     ;\n     ;(expect 3\n     ;        (eval '(let [a 3]\n     ;                 a)))\n     ;\n     ;(expect 5\n     ;        (eval '(let [f (fn [x] (+ x 2))]\n     ;                 (f 3))))\n     ]))&quot;, :offset 1877, :ns &quot;interpreter.default-test&quot;} {:command &quot;(seq-eval)&quot;, :offset 10, :ns &quot;interpreter.default-test&quot;} {:command &quot;(defn eval\n  ([sexp] (eval sexp initial-state))\n  ([sexp env]\n   (:result (eval-sexp sexp env))))&quot;, :offset 97, :ns &quot;interpreter.impl.default&quot;} {:command &quot;(eval '((fn [x] x) 2))&quot;, :offset 22, :ns &quot;interpreter.impl.default&quot;} {:command &quot;(def initial-state (State. 'NIL {}))&quot;, :offset 36, :ns &quot;interpreter.type&quot;} {:command &quot;(ns interpreter.type\n  (:refer-clojure :exclude [true?]\n                  :rename {apply clj-apply}))&quot;, :offset 101, :ns &quot;user&quot;} {:command &quot;(defrecord State [result env])\n(defrecord Proc [params body env name])\n\n(def initial-state (State. 'NIL {}))\n\n(defn map-vals [f m]\n  (into (empty m) (for [[k v] m]\n                    [k (f v)])))\n\n(defn error [&amp; msg] (assert false (clj-apply str msg)))\n\n(def bools #{'TRUE 'FALSE})\n\n(defn self-evaluating? [sexp]\n  (or (number? sexp)\n      (bools sexp)))\n\n(defn true? [sexp]\n  (not= 'FALSE sexp))&quot;, :offset 397, :ns &quot;interpreter.type&quot;} {:command &quot;(ns interpreter.impl.default\n  (:refer-clojure :exclude [eval true?]\n                  :rename {apply clj-apply})\n  (:require [interpreter.type :refer :all])\n  (:import (interpreter.type State Proc)))&quot;, :offset 200, :ns &quot;user&quot;} {:command &quot;(eval-sexp '((fn [x] x) 2) {})&quot;, :offset 30, :ns &quot;interpreter.impl.default&quot;} {:command &quot;(eval-sexp '((fn [x] x) 2) initial-state)&quot;, :offset 41, :ns &quot;interpreter.impl.default&quot;}], :remote []}}</component>
+  <component name="RunDashboard">
+    <option name="ruleStates">
+      <list>
+        <RuleState>
+          <option name="name" value="ConfigurationTypeDashboardGroupingRule" />
+        </RuleState>
+        <RuleState>
+          <option name="name" value="StatusDashboardGroupingRule" />
+        </RuleState>
+      </list>
+    </option>
+  </component>
+  <component name="RunManager" selected="Clojure Application.interpreter.core">
+    <configuration name="Clj" type="ClojureREPL" factoryName="Local" activateToolWindowBeforeRun="false">
+      <module name="interpreter" />
+      <setting name="replType" value="NREPL" />
+      <setting name="execution" value="INTELLIJ" />
+      <setting name="jvmArgs" value="" />
+      <setting name="parameters" value="" />
+      <setting name="workingDir" value="$PROJECT_DIR$" />
+      <setting name="profiles" value="" />
+      <setting name="aliases" value="" />
+      <method v="2" />
+    </configuration>
+    <configuration default="true" type="ClojureREPL" factoryName="Local" activateToolWindowBeforeRun="false">
+      <setting name="replType" value="NREPL" />
+      <setting name="execution" value="LEININGEN" />
+      <module name="" />
+      <setting name="jvmArgs" value="" />
+      <setting name="parameters" value="" />
+      <setting name="workingDir" value="" />
+      <setting name="profiles" value="" />
+      <setting name="aliases" value="" />
+      <method v="2" />
+    </configuration>
+    <configuration default="true" type="ClojureREPL" factoryName="Remote" activateToolWindowBeforeRun="false">
+      <setting name="host" value="" />
+      <setting name="port" value="0" />
+      <setting name="replType" value="0" />
+      <module name="" />
+      <method v="2" />
+    </configuration>
+    <configuration name="interpreter.core" type="ClojureScriptRunConfiguration" factoryName="Clojure Script" temporary="true">
+      <module name="interpreter" />
+      <setting name="path" value="" />
+      <setting name="namespace" value="interpreter.core" />
+      <setting name="execution" value="INTELLIJ" />
+      <setting name="profiles" value="" />
+      <setting name="aliases" value="" />
+      <setting name="vmparams" value="" />
+      <setting name="params" value="default" />
+      <setting name="workDir" value="$PROJECT_DIR$" />
+      <method v="2" />
+    </configuration>
+    <configuration name="interpreter.raw" type="ClojureScriptRunConfiguration" factoryName="Clojure Script" temporary="true">
+      <module name="interpreter" />
+      <setting name="path" value="" />
+      <setting name="namespace" value="interpreter.raw" />
+      <setting name="execution" value="INTELLIJ" />
+      <setting name="profiles" value="" />
+      <setting name="aliases" value="" />
+      <setting name="vmparams" value="" />
+      <setting name="params" value="" />
+      <setting name="workDir" value="$PROJECT_DIR$" />
+      <method v="2" />
+    </configuration>
+    <configuration name="interpreter.raw2" type="ClojureScriptRunConfiguration" factoryName="Clojure Script" temporary="true">
+      <module name="interpreter" />
+      <setting name="path" value="" />
+      <setting name="namespace" value="interpreter.raw2" />
+      <setting name="execution" value="INTELLIJ" />
+      <setting name="profiles" value="" />
+      <setting name="aliases" value="" />
+      <setting name="vmparams" value="" />
+      <setting name="params" value="" />
+      <setting name="workDir" value="$PROJECT_DIR$" />
+      <method v="2" />
+    </configuration>
+    <list>
+      <item itemvalue="Clojure Application.interpreter.core" />
+      <item itemvalue="Clojure Application.interpreter.raw" />
+      <item itemvalue="Clojure Application.interpreter.raw2" />
+      <item itemvalue="Clojure REPL.Clj" />
+    </list>
+    <recent_temporary>
+      <list>
+        <item itemvalue="Clojure Application.interpreter.core" />
+        <item itemvalue="Clojure Application.interpreter.raw2" />
+        <item itemvalue="Clojure Application.interpreter.raw" />
+      </list>
+    </recent_temporary>
+  </component>
+  <component name="TodoView" selected-index="1">
+    <todo-panel id="selected-file">
+      <is-autoscroll-to-source value="true" />
+    </todo-panel>
+    <todo-panel id="all">
+      <are-packages-shown value="true" />
+      <is-autoscroll-to-source value="true" />
+    </todo-panel>
+  </component>
+  <component name="ToolWindowManager">
+    <frame x="256" y="-1057" width="1410" height="924" extended-state="0" />
+    <layout>
+      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.18865249" />
+      <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
+      <window_info id="Image Layers" order="2" />
+      <window_info id="Designer" order="3" />
+      <window_info id="UI Designer" order="4" />
+      <window_info id="Capture Tool" order="5" />
+      <window_info id="Favorites" order="6" side_tool="true" />
+      <window_info anchor="bottom" id="Message" order="0" />
+      <window_info anchor="bottom" id="Find" order="1" />
+      <window_info active="true" anchor="bottom" id="Run" order="2" visible="true" weight="0.39800444" />
+      <window_info anchor="bottom" id="Debug" order="3" weight="0.4" />
+      <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
+      <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
+      <window_info anchor="bottom" id="TODO" order="6" weight="0.32982457" />
+      <window_info anchor="bottom" id="Terminal" order="7" weight="0.3292683" />
+      <window_info anchor="bottom" id="Event Log" order="8" side_tool="true" />
+      <window_info anchor="bottom" id="Version Control" order="9" />
+      <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
+      <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
+      <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
+      <window_info anchor="right" id="Palette" order="3" />
+      <window_info anchor="right" id="Maven" order="4" sideWeight="0.4985591" weight="0.32936507" />
+      <window_info anchor="right" id="Theme Preview" order="5" />
+      <window_info anchor="right" x="0" y="435" width="864" height="487" id="REPL" order="6" sideWeight="0.50432277" side_tool="true" visible="true" weight="0.3531915" />
+      <window_info anchor="right" id="Leiningen" order="7" sideWeight="0.49567723" weight="0.32936507" />
+      <window_info anchor="right" id="Capture Analysis" order="8" />
+      <window_info anchor="right" id="Palette&#9;" order="9" />
+      <window_info anchor="right" id="Key Promoter X" order="10" />
+    </layout>
+  </component>
+  <component name="editorHistoryManager">
+    <entry file="file://$PROJECT_DIR$/src/interpreter/core.clj" />
+    <entry file="file://$PROJECT_DIR$/src/interpreter/type.clj">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="156">
+          <caret line="59" column="5" selection-start-line="59" selection-start-column="5" selection-end-line="59" selection-end-column="5" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/interpreter/raw.kt" />
+    <entry file="file://$PROJECT_DIR$/src/interpreter/raw.clj">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="705">
+          <caret line="380" column="2" selection-start-line="380" selection-start-column="2" selection-end-line="380" selection-end-column="2" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar:///Library/Java/JavaVirtualMachines/jdk1.8.0_192.jdk/Contents/Home/jre/lib/rt.jar!/com/sun/xml/internal/bind/v2/TODO.class">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="60">
+          <caret line="7" column="22" selection-start-line="7" selection-start-column="22" selection-end-line="7" selection-end-column="22" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/test/interpreter/core_test.clj">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="30">
+          <caret line="2" column="28" selection-start-line="2" selection-start-column="28" selection-end-line="2" selection-end-column="28" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://$MAVEN_REPOSITORY$/org/clojure/clojure/1.9.0/clojure-1.9.0.jar!/clojure/lang/Namespace.class">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="456">
+          <caret line="99" column="38" lean-forward="true" selection-start-line="99" selection-start-column="38" selection-end-line="99" selection-end-column="38" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/project.clj">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="105">
+          <caret line="7" selection-start-line="7" selection-end-line="7" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://$MAVEN_REPOSITORY$/org/clojure/clojure/1.9.0/clojure-1.9.0.jar!/clojure/test.clj">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="345">
+          <caret line="552" column="10" selection-start-line="552" selection-start-column="10" selection-end-line="552" selection-end-column="10" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://$MAVEN_REPOSITORY$/org/clojure/clojure/1.9.0/clojure-1.9.0.jar!/clojure/core.clj">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="345">
+          <caret line="492" column="10" selection-start-line="492" selection-start-column="10" selection-end-line="492" selection-end-column="10" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://$MAVEN_REPOSITORY$/org/clojure/clojure/1.9.0/clojure-1.9.0.jar!/clojure/lang/Compiler.class">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="465">
+          <caret line="507" column="59" selection-start-line="507" selection-start-column="59" selection-end-line="507" selection-end-column="59" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/interpreter/core.clj">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="240">
+          <caret line="16" lean-forward="true" selection-start-line="16" selection-end-line="16" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/interpreter/driver.clj">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="285">
+          <caret line="19" column="22" selection-start-line="19" selection-start-column="22" selection-end-line="19" selection-end-column="22" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/interpreter/impl/nondeterministic.clj">
+      <provider selected="true" editor-type-id="text-editor">
+        <state>
+          <caret column="37" selection-start-column="37" selection-end-column="37" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/test/interpreter/default_test.clj">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="420">
+          <caret line="28" column="18" selection-start-line="28" selection-start-column="18" selection-end-line="28" selection-end-column="18" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/interpreter/type.clj">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="360">
+          <caret line="24" selection-start-line="24" selection-end-line="24" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/interpreter/impl/default.clj">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="90">
+          <caret line="6" column="15" selection-start-line="6" selection-start-column="15" selection-end-line="6" selection-end-column="15" />
+        </state>
+      </provider>
+    </entry>
+  </component>
+</project>
