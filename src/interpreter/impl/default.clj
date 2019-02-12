@@ -6,31 +6,12 @@
 
 (declare apply eval)
 
-(defn- eval-if [[_ pred consequent alternative] env]
+(defn eval-if [[_ pred consequent alternative] env]
   (if (true? (eval pred env))
     (eval consequent env)
     (if (nil? alternative)
       'NIL
       (eval alternative env))))
-
-(defn make-if
-  ([pred consequence]
-   (list 'if pred consequence))
-  ([pred consequence alternative]
-   (list 'if pred consequence alternative)))
-
-(defn make-fn [params body]
-  (list 'fn params body))
-
-(defn pairs->if [[pred consequence & pairs]]
-  (if (nil? pairs)
-    (make-if pred consequence)
-    (make-if pred
-             consequence
-             (pairs->if pairs))))
-
-(defn cond->if [[_ & pairs]]
-  (pairs->if pairs))
 
 (defn let->fn [[_ bindings body]]
   (let [params (take-nth 2 bindings)
@@ -39,10 +20,9 @@
       (make-fn params body)
       args)))
 
-(defn- eval-let [[bindings body] env]
+(defn eval-let [[bindings body] env]
   (eval body (merge env
                     (map-vals #(eval % env) (clj-apply hash-map bindings)))))
-
 
 (defmulti eval-seq (fn [sexp env] (first sexp)))
 
@@ -133,6 +113,10 @@
 
 (defn reduce-state [initial-state sexps]
   (reduce next-state initial-state sexps))
+
+(defmethod eval-seq 'do
+  [[_ & operands] env]
+  (reduce-state (State. 'NIL env) operands))
 
 (defn eval-program [sexps]
   (:result (reduce-state initial-state sexps)))

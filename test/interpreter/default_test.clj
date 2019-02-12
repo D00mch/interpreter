@@ -1,6 +1,7 @@
 (ns interpreter.default-test
   (:refer-clojure :exclude [eval true?])
   (:require [clojure.test :refer :all]
+            [interpreter.type :refer :all]
             [interpreter.impl.default :refer :all]))
 
 (defmacro expect
@@ -25,6 +26,12 @@
              (eval-program
                '[(def a 3)
                  a]))
+
+     ; test state inside do
+     (expect 4
+             (eval-program
+               '[(do (def x 2)
+                     (+ x x))]))
 
      (expect {'a 3}
              (:env (#'interpreter.impl.default/eval-sexp '(def a 3) {})))]))
@@ -53,8 +60,7 @@
 
      (expect '(if TRUE 3)
              (cond->if '(cond TRUE
-                              3
-                              )))
+                              3)))
 
      (expect 3
              (eval '(cond TRUE 3)))

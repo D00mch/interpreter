@@ -1,6 +1,6 @@
 (ns interpreter.core
-  (:require [interpreter.impl.default :as default])
-  (:require [interpreter.driver :as driver])
+  (:require [interpreter.impl.default :as default]
+            [interpreter.driver :as driver])
   (:gen-class))
 
 (defmulti reduce-state :interpreter)
