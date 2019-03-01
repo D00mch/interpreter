@@ -12,7 +12,7 @@
 
 (deftest primitive-eval
   (testing
-    [(expect '3 (eval '3))
+    [(expect 3 (eval '3))
      (expect 'TRUE (eval 'TRUE))
      (expect 2 (eval '(+ 1 1)))
      (expect 5 (eval '(+ (+ 1 2) 1 1)))

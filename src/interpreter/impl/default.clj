@@ -1,16 +1,26 @@
 (ns interpreter.impl.default
-  (:refer-clojure :exclude [eval true?]
-                  :rename {apply clj-apply})
+  (:refer-clojure :exclude [eval true?] :rename {apply clj-apply})
   (:require [interpreter.type :refer :all])
-  (:import (interpreter.type State Proc)))
+  (:import [interpreter.type Proc State]))
 
 (declare apply eval)
+
+;; todo: move in common place?
+(def ^:private the-global-env (atom {}))
+
+(println the-global-env)
+
+(defn- define-variable!
+  ([name val]
+   (define-variable! the-global-env name val))
+  ([env-atom name val]
+   (swap! env-atom #(assoc % name val))))
 
 (defn eval-if [[_ pred consequent alternative] env]
   (if (true? (eval pred env))
     (eval consequent env)
     (if (nil? alternative)
-      'NIL
+      'ok
       (eval alternative env))))
 
 (defn let->fn [[_ bindings body]]
@@ -28,29 +38,29 @@
 
 (defmethod eval-seq :default
   [[op & operands] env]
-  (State. (apply (eval op env)
-                 (map (fn [operand]
-                        (eval operand env))
-                      operands))
-          env))
+  (let [evaled-op (eval op env)]
+    (apply evaled-op
+           (map (fn [operand]
+                  (eval operand env))
+                operands))))
 
 (defmethod eval-seq 'def
   [[_ & operands] env]
-  (State. 'NIL
-          (let [[name exp] operands
-                value (eval exp env)]
-            (assoc env name value))))
+  (let [[name exp] operands
+        value (eval exp env)]
+    (define-variable! name value))
+  'ok)
 
 (defmethod eval-seq 'defn
   [[_ & operands] env]
-  (State. 'NIL
-          (let [[name params body] operands
-                new-fn (Proc. params body env name)]
-            (assoc env name new-fn))))
+  (let [[name params body] operands
+        new-fn (Proc. params body env name)]
+    (define-variable! name new-fn))
+  'ok)
 
 (defmethod eval-seq 'if
   [sexp env]
-  (State. (eval-if sexp env) env))
+  (eval-if sexp env))
 
 (defmethod eval-seq 'cond
   [sexp env]
@@ -63,22 +73,21 @@
 (defmethod eval-seq 'fn
   [[op & operands] env]
   (let [[params body] operands]
-    (State. (Proc. params
-                   body
-                   env
-                   nil)
-            env)))
+    (Proc. params
+           body
+           env
+           nil)))
 
 (defn- eval-sexp [sexp env]
   (cond
     (self-evaluating? sexp)
-    (State. sexp env)
+    sexp
 
     (primitive-procedure-name? sexp)
-    (State. (primitive-procedure-map sexp) env)
+    (primitive-procedure-map sexp)
 
     (symbol? sexp)
-    (State. (env sexp) env)
+    (env sexp)
 
     (seq? sexp)
     (eval-seq sexp env)
@@ -103,15 +112,17 @@
     (error "APPLY FAIL: " proc args)))
 
 (defn- eval
-  ([sexp] (eval sexp {}))
+  ([sexp] (eval sexp the-global-env))
   ([sexp env]
-   (:result (eval-sexp sexp env))))
+   (eval-sexp sexp env)))
 
 (defn- next-state [last-state sexp]
+  {:deprecated "now"}
   (let [env (:env last-state)]
     (eval-sexp sexp env)))
 
 (defn reduce-state [initial-state sexps]
+  {:deprecated "now"}
   (reduce next-state initial-state sexps))
 
 (defmethod eval-seq 'do
@@ -120,3 +131,39 @@
 
 (defn eval-program [sexps]
   (:result (reduce-state initial-state sexps)))
+
+;; driver
+(def ^:private input-prompt ";;; Input Eval")
+(def ^:private output-prompt ";;; Value Eval:")
+(def ^:private prompt-for-input #(println %))
+(def ^:private announce-output #(println %))
+
+(defn- user-print [input output]
+  (println "")
+  (println output-prompt))
+
+(defn print-loop
+  "reduce-state-fn should be fn, that take State and sexps
+  and return State as a result of evaluating sexps"
+  [reduce-state-fn]
+  (loop [state initial-state]
+    (prompt-for-input input-prompt)
+    (let [input  (read-string (read-line))
+          output (reduce-state-fn state (list input))]
+      (user-print (:result output))
+      (recur output))))
+
+
+;(let [input (read-string (read-line))
+;      output (eval input the-global-env)]
+;  (println output))
+
+(defn print-loop []
+  (loop [env the-global-env]
+    (prompt-for-input input-prompt)
+    (let [input (read-string (read-line))
+          output (eval input env)]
+      (user-print input output)
+      (recur env))))
+
+;(print-loop)

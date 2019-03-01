@@ -1,6 +1,5 @@
 (ns interpreter.core
-  (:require [interpreter.impl.default :as default]
-            [interpreter.driver :as driver])
+  (:require [interpreter.impl.default :as default])
   (:gen-class))
 
 (defmulti reduce-state :interpreter)
@@ -12,5 +11,4 @@
   "Pass implementation: default or nondeterministic"
   [& args]
   (println "Starting interpreter")
-  (driver/print-loop
-    (reduce-state {:interpreter (first args)})))
+  )
