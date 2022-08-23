@@ -7,26 +7,41 @@
 
 ;; # Environment
 
+(defrecord Frame [bindings ^Frame outer])
 (defrecord State [result env])
-
-(defn set-variable-value [-name value env]
-  (if (contains? env -name)
-    (State. 'NIL (assoc env -name value))
-    (error "Unbound variable: " -name)))
-
-(defn define-variable [-name value env]
-  (State. 'NIL (assoc env -name value)))
-
-;; # Procedure
-
-(declare eval-sequence eval-to-result)
-
-(deftype Proc [params body env name])
 
 (def primitive-procedure-map 
   {'+ +, '- -, '* *, '/ / 
    '= (fn [& args]
         (if (apply = args) 'TRUE 'FALSE)) })
+
+(def global-env (Frame. primitive-procedure-map nil))
+
+(defn lookup-variable-value [^Frame env x]
+  (cond 
+    (nil? env) (throw (ex-info "not found" {:x x}))
+    (contains? (.bindings env) x) (get (.bindings env) x)
+    :else (recur (.outer env) x)))
+
+(defn extend-env [variables values base-env]
+  (Frame. (zipmap variables values) base-env)
+  #_(merge base-env
+         #_{(.name proc) proc}
+         (zipmap variables values)))
+
+(defn define-variable [-name value ^Frame env]
+  (State. 'NIL (assoc-in env [:bindings -name] value)))
+
+(defn set-variable-value [-name value ^Frame env]
+  (if (contains? (.bindings env) -name)
+    (define-variable -name value env)
+    (error "Unbound variable: " -name)))
+
+;; # Procedure
+
+(declare eval-sequence eval-to-result)
+
+(defrecord Proc [params body env name])
 
 (def primitive-procedure-name? (set (keys primitive-procedure-map)))
 (def primitive-procedure? (set (vals primitive-procedure-map)))
@@ -38,13 +53,14 @@
         (compound-procedure? proc) 
         (let [proc ^Proc proc]
           (eval-sequence (.body proc)
-                         (merge (.env proc)
-                                {(.name proc) proc}
-                                (zipmap (.params proc) args))))
-        #_(eval>result (.body proc)
-               (merge (.env proc)
-                      {(.name proc) proc}
-                      (zipmap (.params proc) args)))
+                         (extend-env (.params proc) 
+                                     args  ;; think how to provide proc name below
+                                     (assoc-in ^Frame (.env proc)
+                                               [:bindings (.name proc)]
+                                               proc)
+                                     #_(Frame. (merge (.bindings (.env proc))
+                                                      {(.name proc) proc})
+                                               (.outer (.env proc))))))
         :else (error "Unknown procedure type: " proc args)))
 
 ;; Boolean
@@ -57,13 +73,28 @@
 (defn _true? [sexp]
   (and (not= 'FALSE sexp) (not= 'NIL sexp)))
 
+;; Assignment
+
+(defrecord Assignment [variable value])
+(defrecord Definition [variable value])
+
 ;; Evaluation
 
 (defprotocol IEval
   (-eval [this env]))
 
+(defn eval-assignment [^Assignment exp env]
+  (set-variable-value (.variable exp)
+                      (-eval (.value exp) env)
+                      env))
+
+(defn eval-definition [^Definition exp env]
+  (define-variable (.variable exp)
+                   (-eval (.value exp) env)
+                   env))
+
 (defn eval-to-result [sexp env]
-  (:result (-eval sexp env)))
+  (.result ^State (-eval sexp env)))
 
 (defn eval-if [[_ pred conseq alt] env]
   (cond (_true? (eval-to-result pred env)) (eval-to-result conseq env)
@@ -82,7 +113,7 @@
     (cond
       (primitive-procedure-name? sexp) 
       (State. (primitive-procedure-map sexp) env)
-      :else (State. (env sexp) env))) 
+      :else (State. (lookup-variable-value env sexp) env))) 
 
   clojure.lang.ISeq
   (-eval [sexp env]
@@ -116,11 +147,11 @@
 
 ;; Run program
 
-(defn next-state [last-state sexp]
-  (let [env (:env last-state)]
+(defn next-state [^State last-state sexp]
+  (let [env (.env last-state)]
     (-eval sexp env)))
 
-(def initial-state (State. 'NIL {}))
+(def initial-state (State. 'NIL global-env))
 
 (defn eval-program [sexps]
   (reduce next-state initial-state sexps))
