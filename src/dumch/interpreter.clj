@@ -3,8 +3,6 @@
 
 (set! *warn-on-reflection* true)
 
-(defn error [& msg] (assert false (apply str msg)))
-
 ;; # Environment
 
 (deftype Frame [^clojure.lang.IPersistentMap bindings outer])
@@ -25,42 +23,114 @@
 
 (defn extend-env [variables values base-env]
   (Frame. (java.util.HashMap. 
-            ^java.util.Map (zipmap variables values)) base-env)
-  #_(Frame. (zipmap variables values) base-env)
-  #_(merge base-env
-         #_{(.name proc) proc}
-         (zipmap variables values)))
+            ^java.util.Map (zipmap variables values)) base-env))
 
 (defn define-variable! [-name value ^Frame env]
   (.put ^java.util.HashMap (.bindings env) -name value)
-  nil
-  #_(State. nil (assoc-in env [:bindings -name] value)))
+  nil)
 
 (defn set-variable-value! [-name value ^Frame env]
   (if (lookup-variable-value env -name)
     (define-variable! -name value env)
-    (error "Unbound variable: " -name)))
+    (throw (ex-info "Unbound variable: " {:name -name}))))
 
 ;; # Procedure
 
-(declare eval-sequence eval-to-result)
-
 (defrecord Proc [params body env name])
 
-(def primitive-procedure-name? (set (keys primitive-procedure-map)))
 (def primitive-procedure? (set (vals primitive-procedure-map)))
-
 (def compound-procedure? #(-> % class (= Proc)))
 
-(defn -apply [proc args]
+(defn execute-applicaiton [proc args]
   (cond (primitive-procedure? proc) (apply proc args)
-        (compound-procedure? proc) 
-        (let [proc ^Proc proc]
-          (eval-sequence (.body proc)
-                         (extend-env (.params proc) 
-                                     args  
-                                     (.env proc))))
-        :else (error "Unknown procedure type: " proc args)))
+        (compound-procedure? proc)
+        (let [proc ^Proc proc] 
+          ((.body proc)
+           (extend-env (.params proc) args (.env proc))))
+        :else (throw (ex-info  "Unknown procedure type: "  
+                              {:proc proc :args args}))))
+
+;; Analize
+
+;; returns fn: (env) -> evaluation result
+(defprotocol IAnalize
+  (analize [exp]))
+
+(defn analize-if [sexp]
+  (let [[_ pred conseq alt] sexp
+        pred-fn (analize pred)
+        conseq-fn (analize conseq)
+        alt-fn (analize alt)]
+    (fn [env]
+      (if (true? (pred-fn env))
+        (conseq-fn env)
+        (alt-fn env)))))
+
+(defn analize-sequence [sq]
+  (loop [sq sq
+         r []]
+    (if (seq sq)
+      (recur (next sq)
+             (conj r (analize (nth sq 0))))
+      (fn [env] 
+        (last (map #(% env) r))))))
+
+(defn analize-lambda [params body-sq]
+  (let [body-fn (analize-sequence body-sq)]
+    (fn [env] 
+      (Proc. params body-fn env nil))))
+
+(defn analize-quoted [[_ quotation]]
+  (fn [_] quotation))
+
+(defn analize-assignment [[_ _name v]]
+  (fn [env] 
+    (set-variable-value! _name ((analize v) env) env)))
+
+(defn analize-def [[_ _name v]]
+  (fn [env] 
+    (define-variable! _name ((analize v) env) env)))
+
+(defn analize-defn [[_ _name params & body]]
+  (let [make-proc-fn (analize-lambda params body)]
+    (fn [env]
+      (define-variable! _name (make-proc-fn env) env))))
+
+(defn analize-fn [[_ params & body]]
+  (let [make-proc-fn (analize-lambda params body)]
+    #(make-proc-fn %)))
+
+(defn- analize-application [[op & operands]]
+  (let [f-fn (analize op)
+        args-fns (map analize operands)]
+    (fn [env]
+      (execute-applicaiton
+        (f-fn env)
+        (map #(% env) args-fns)))))
+
+(extend-protocol IAnalize
+  nil (analize [_] nil)
+
+  java.lang.Boolean (analize [s] (fn [_] s))
+  java.lang.Long (analize [s] (fn [_] s))
+  java.lang.Character (analize [s] (fn [_] s))
+  java.lang.String (analize [s] (fn [_] s))
+  clojure.lang.IPersistentVector (analize [s] (fn [_] s))
+
+  clojure.lang.Symbol
+  (analize [sexp]
+    (fn [env] (lookup-variable-value env sexp))) 
+
+  clojure.lang.ISeq
+  (analize [[op :as sexp]]
+    (case op
+      set! (analize-assignment sexp) 
+      def (analize-def sexp)
+      defn (analize-defn sexp)
+      fn (analize-fn sexp)
+      if (analize-if sexp)
+      quote (analize-quoted sexp) 
+      (analize-application sexp))))
 
 (comment 
   (def test-env (extend-env '() '() global-env))
@@ -71,84 +141,13 @@
   (def p (->Proc '(a b c) '((+ a b c)) test-env 'factorial))
   (define-variable! 'f p test-env)
 
-  (-apply p '(1 2 3))
+  #_(-apply p '(1 2 3))
   )
-
-
-;; Assignment
-
-(defrecord Assignment [variable value])
-(defrecord Definition [variable value])
 
 ;; Evaluation
 
-(defprotocol IEval
-  (-eval [this env]))
-
-(defn eval-assignment [^Assignment exp env]
-  (set-variable-value! (.variable exp)
-                      (-eval (.value exp) env)
-                      env))
-
-(defn eval-definition [^Definition exp env]
-  (define-variable! (.variable exp)
-                   (-eval (.value exp) env)
-                   env))
-
-(defn eval-to-result [sexp env]
-  (-eval sexp env)
-  #_(.result ^State (-eval sexp env)))
-
-(defn eval-if [[_ pred conseq alt] env]
-  (cond (true? (eval-to-result pred env)) (eval-to-result conseq env)
-        (nil? alt) nil
-        :else (eval-to-result alt env)))
-
-(defn eval-sequence [[head & tail] env]
-  ; (clojure.pprint/pprint {:head head :tail tail :env env})
-  (cond tail (do (-eval head env)
-                 (recur tail ^Frame env))
-        head (eval-to-result head env)))
-
-(extend-protocol IEval
-  nil (-eval [_ _] nil)
-
-  java.lang.Boolean (-eval [s _] s)
-  java.lang.Long (-eval [s _] s)
-  java.lang.Character (-eval [s _] s)
-  java.lang.String (-eval [s _] s)
-  clojure.lang.IPersistentVector (-eval [s _] s)
-
-  clojure.lang.Symbol
-  (-eval [sexp env]
-    (cond
-      (primitive-procedure-name? sexp) (primitive-procedure-map sexp)
-      :else (lookup-variable-value env sexp))) 
-
-  clojure.lang.ISeq
-  (-eval [sexp env]
-    (let [[op & operands] sexp]
-      (case op
-        set! (let [[_name exp] operands
-                   value (eval-to-result exp env)]
-               (set-variable-value! _name value env))
-
-        def (let [[_name exp] operands
-                  value (eval-to-result exp env)]
-              (define-variable! _name value env))
-
-        defn (let [[_name params & body] operands
-                   new-fn (Proc. params body env _name)]
-               (define-variable! _name new-fn env)
-               nil)
-
-        if (eval-if sexp env)
-
-        fn (let [[params & body] operands]
-             (Proc. params body env nil))
-
-        (-apply (eval-to-result op env)
-                (map #(eval-to-result % env) operands))))))
+(defn -eval [sexp env]
+  ((analize sexp) env))
 
 ;; Run program
 
@@ -157,6 +156,13 @@
     (last (map #(-eval % env) sexps))))
 
 (comment 
+  (eval-program '( 
+                  (def a 1)
+                  (set! a 2)
+                  a ))
+
+  (eval-program '( (cons 1 '()) ))
+
   (eval-program '((count [1 2 3])))
 
   (eval-program '((defn factorial [n]
@@ -171,7 +177,7 @@
                     (def a 1)
                     (def b 3)
                     (* a a a))
-                  (cons (= (test) 1) nil)
+                  (cons (= (test) 1) '())
                   ))
 
   (eval-program '(
@@ -185,7 +191,7 @@
                         false
                         (even? (- n 1))))
                     (even? x))
-                  (f 3)
+                  (f 4)
                   ))
   
   (require '[portal.api :as p])
@@ -193,4 +199,19 @@
   (add-tap #'p/submit)
 
   (require '[criterium.core :refer [quick-bench]])
+
+  (quick-bench
+    (eval-program '((defn factorial [n]
+                      (if (= n 1) 1 (* n (factorial (- n 1))))) 
+                    (factorial 20))))
+
+  ; object 
+  ; Execution time mean : 51.355074 µs
+
+  ; dispatch on concrete types
+  ; Execution time mean : 49.512234 µs
+
+  ; after analize
+  ; Execution time mean : 47.358229 µs
+
   )
