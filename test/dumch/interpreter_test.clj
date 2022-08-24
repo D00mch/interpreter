@@ -1,6 +1,6 @@
 (ns dumch.interpreter-test
   (:require [clojure.test :refer [deftest testing is]]
-            [dumch.impl.direct :as direct :refer [eval-program]]
+            [dumch.impl.direct :as direct :as direct]
             [dumch.impl.nondeterministic :as nondeterministic]))
 
 (defn primitives-test [eval-program]

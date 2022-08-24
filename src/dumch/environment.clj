@@ -7,7 +7,9 @@
 (deftype Frame [^java.util.Map bindings outer])
 
 (def primitive-procedure-map 
-  {'+ +, '- -, '* *, '/ / 'rem rem 'quot quot 'nil? nil?  
+  {'+ +, '- -, '* *, '/ / '> > '< < '>= >= '<= <= 
+   'rem rem 'quot quot 'nil? nil?  
+   'even? even? 'odd? odd? 'number? number?
    'first first 'rest rest 'next next 'last last 'cons cons 
    'count count 'seq seq 'not not 'some? some?
    'println println 'identity identity
@@ -46,3 +48,13 @@
 
 (def primitive-procedure? (set (vals primitive-procedure-map)))
 (def compound-procedure? #(-> % class (= Proc)))
+
+;; # Derived
+
+(defn let->lambda [[_ bindings & body]]
+  (let [m (apply hash-map bindings) ;; todo: fix performance
+        names (keys m)
+        values (vals m)]
+    (cons (list 'fn (vec names) 
+                (cons 'do body))
+          values)))

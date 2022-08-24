@@ -64,7 +64,7 @@
   (let [make-proc-fn (analyze-lambda params body nil)]
     #(make-proc-fn %)))
 
-(defn- analyze-application [[op & operands]]
+(defn analyze-application [[op & operands]]
   (let [f-fn (analyze op)
         args-fns (map analyze operands)]
     (fn [env]
@@ -72,8 +72,11 @@
         (f-fn env)
         (map #(% env) args-fns)))))
 
+(defn analyze-let [sexp]
+  (analyze (core/let->lambda sexp)))
+
 (extend-protocol Ianalyze
-  nil (analyze [_] nil)
+  nil (analyze [_] (fn [_] nil))
 
   java.lang.Boolean (analyze [s] (fn [_] s))
   java.lang.Long (analyze [s] (fn [_] s))
@@ -93,7 +96,9 @@
       defn (analyze-defn sexp)
       fn (analyze-fn sexp)
       if (analyze-if sexp)
+      do (analyze-sequence (next sexp))
       quote (analyze-quoted sexp) 
+      let (analyze-let sexp)
       (analyze-application sexp))))
 
 (comment 
@@ -118,6 +123,14 @@
 (defn eval-program [sexps]
   (let [env (core/extend-env)]
     (last (map #(-eval % env) sexps))))
+
+(comment
+  (eval-program '(
+                  (let [a 1, b 2]
+                    (println "a")
+                    (+ a b))
+                  ))
+  )
 
 ;; REPL
 

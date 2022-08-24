@@ -13,4 +13,9 @@
                           (amb (first items)
                                (an-element-of (next items))))
 
-                        (= 1 (an-element-of [1 2 3])))))))
+                        (= 1 (an-element-of [1 2 3])))))
+    (is (eval-program '(
+                        (let [a (amb 1 2 3)]
+                          (if (< a 3) (amb))
+                          a
+                          (= a 3)))))))

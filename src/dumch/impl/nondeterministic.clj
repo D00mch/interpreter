@@ -120,7 +120,10 @@
      fail)
     (succeed '() fail)))
 
-(defn- analyze-application [[op & operands]]
+(defn analyze-let [sexp]
+  (analyze (core/let->lambda sexp)))
+
+(defn analyze-application [[op & operands]]
   (let [f-fn (analyze op)
         args-fns (map analyze operands)]
     (fn [env succeed fail]
@@ -138,13 +141,13 @@
   (let [fns (map analyze amb-choices)]
     (fn [env succeed fail]
       (letfn [(try-next [choices]
-                (if (nil? (seq choices))
-                  (fail)
+                (if (seq choices)
                   ((nth choices 0)
                    env
                    succeed
                    (fn []
-                     (try-next (next choices))))))]
+                     (try-next (next choices))))
+                  (fail)))]
         (try-next fns)))))
 
 (extend-protocol Ianalyze
@@ -159,7 +162,7 @@
 
   clojure.lang.Symbol
   (analyze [sexp]
-    (fn [env succeed fail] 
+    (fn [env succeed fail]
       (succeed (core/lookup-variable-value env sexp) fail))) 
 
   clojure.lang.ISeq
@@ -169,9 +172,11 @@
       amb (analyze-amb sexp)
       def (analyze-def sexp)
       defn (analyze-defn sexp)
+      do (analyze-sequence (next sexp))
       fn (analyze-fn sexp)
       if (analyze-if sexp)
       quote (analyze-quoted sexp) 
+      let (analyze-let sexp)
       (analyze-application sexp))))
 
 ;; Evaluation
@@ -240,23 +245,31 @@
   (driver-loop)
 
   (eval-program '(
-                  (first '(1))
+                  (let [a (amb 1 2 3)]
+                    (if (< a 3) (amb))
+                    a
+                    )
                   ))
 
   (eval-program '(
                   (defn require [p]
-                    (if (not p) (amb) -1))
+                    (if (not p) (amb)))
 
                   (defn an-element-of [items]
                     (require (some? (seq items)))
                     (amb (first items)
                          (an-element-of (next items))))
 
-                  (def a (amb [1 2 3 4]))
+                  (defn test-fn [list1 list2]
+                    (let [a (an-element-of list1)
+                          b (an-element-of list2)]
+                      (require (> (+ a b) 2))
+                      a))
+
+                  (test-fn [1 2 3 4 5] [1 2 3 4 5])
 
                   ;; TODO: fix this example
-                  (require (> a 2))
+                  #_(require (> a 1))
 
-                  a
                   ))
   ,)
