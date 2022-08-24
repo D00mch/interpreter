@@ -1,5 +1,4 @@
-(ns dumch.interpreter
-  (:gen-class))
+(ns dumch.interpreter)
 
 (set! *warn-on-reflection* true)
 
@@ -36,7 +35,7 @@
 
 ;; # Procedure
 
-(defrecord Proc [params body env name])
+(deftype Proc [params body env name])
 
 (def primitive-procedure? (set (vals primitive-procedure-map)))
 (def compound-procedure? #(-> % class (= Proc)))
@@ -50,87 +49,92 @@
         :else (throw (ex-info  "Unknown procedure type: "  
                               {:proc proc :args args}))))
 
-;; Analize
+;; analyze
 
 ;; returns fn: (env) -> evaluation result
-(defprotocol IAnalize
-  (analize [exp]))
+(defprotocol Ianalyze
+  (analyze [exp]))
 
-(defn analize-if [sexp]
-  (let [[_ pred conseq alt] sexp
-        pred-fn (analize pred)
-        conseq-fn (analize conseq)
-        alt-fn (analize alt)]
+(defn analyze-if [[_ pred conseq alt]]
+  (let [pred-fn (analyze pred)
+        conseq-fn (analyze conseq)
+        alt-fn (analyze alt)]
     (fn [env]
       (if (true? (pred-fn env))
         (conseq-fn env)
         (alt-fn env)))))
 
-(defn analize-sequence [sq]
-  (loop [sq sq
-         r []]
-    (if (seq sq)
-      (recur (next sq)
-             (conj r (analize (nth sq 0))))
-      (fn [env] 
-        (last (map #(% env) r))))))
+(defn analyze-sequence [sq]
+  (let [sequentially (fn [f1 f2]
+                       (fn [env] (f1 env) (f2 env)))
+        [f & fs] (map analyze sq)]
+    (when (nil? f) 
+      (throw (ex-info "Empty sequence: analyze" {})))
+    (loop [f f
+           fs fs]
+      (if (seq fs)
+        (recur (sequentially f (nth fs 0))
+               (next fs))
+        f))))
 
-(defn analize-lambda [params body-sq]
-  (let [body-fn (analize-sequence body-sq)]
+(defn analyze-lambda [params body-sq _name]
+  (let [body-fn (analyze-sequence body-sq)]
     (fn [env] 
-      (Proc. params body-fn env nil))))
+      (Proc. params body-fn env _name))))
 
-(defn analize-quoted [[_ quotation]]
+(defn analyze-quoted [[_ quotation]]
   (fn [_] quotation))
 
-(defn analize-assignment [[_ _name v]]
-  (fn [env] 
-    (set-variable-value! _name ((analize v) env) env)))
+(defn analyze-assignment [[_ _name v]]
+  (let [val-fn (analyze v)]
+    (fn [env] 
+      (set-variable-value! _name (val-fn env) env))))
 
-(defn analize-def [[_ _name v]]
-  (fn [env] 
-    (define-variable! _name ((analize v) env) env)))
+(defn analyze-def [[_ _name v]]
+  (let [val-fn (analyze v)]
+    (fn [env] 
+      (define-variable! _name (val-fn env) env))))
 
-(defn analize-defn [[_ _name params & body]]
-  (let [make-proc-fn (analize-lambda params body)]
+(defn analyze-defn [[_ _name params & body]]
+  (let [make-proc-fn (analyze-lambda params body _name)]
     (fn [env]
       (define-variable! _name (make-proc-fn env) env))))
 
-(defn analize-fn [[_ params & body]]
-  (let [make-proc-fn (analize-lambda params body)]
+(defn analyze-fn [[_ params & body]]
+  (let [make-proc-fn (analyze-lambda params body nil)]
     #(make-proc-fn %)))
 
-(defn- analize-application [[op & operands]]
-  (let [f-fn (analize op)
-        args-fns (map analize operands)]
+(defn- analyze-application [[op & operands]]
+  (let [f-fn (analyze op)
+        args-fns (map analyze operands)]
     (fn [env]
       (execute-applicaiton
         (f-fn env)
         (map #(% env) args-fns)))))
 
-(extend-protocol IAnalize
-  nil (analize [_] nil)
+(extend-protocol Ianalyze
+  nil (analyze [_] nil)
 
-  java.lang.Boolean (analize [s] (fn [_] s))
-  java.lang.Long (analize [s] (fn [_] s))
-  java.lang.Character (analize [s] (fn [_] s))
-  java.lang.String (analize [s] (fn [_] s))
-  clojure.lang.IPersistentVector (analize [s] (fn [_] s))
+  java.lang.Boolean (analyze [s] (fn [_] s))
+  java.lang.Long (analyze [s] (fn [_] s))
+  java.lang.Character (analyze [s] (fn [_] s))
+  java.lang.String (analyze [s] (fn [_] s))
+  clojure.lang.IPersistentVector (analyze [s] (fn [_] s))
 
   clojure.lang.Symbol
-  (analize [sexp]
+  (analyze [sexp]
     (fn [env] (lookup-variable-value env sexp))) 
 
   clojure.lang.ISeq
-  (analize [[op :as sexp]]
+  (analyze [[op :as sexp]]
     (case op
-      set! (analize-assignment sexp) 
-      def (analize-def sexp)
-      defn (analize-defn sexp)
-      fn (analize-fn sexp)
-      if (analize-if sexp)
-      quote (analize-quoted sexp) 
-      (analize-application sexp))))
+      set! (analyze-assignment sexp) 
+      def (analyze-def sexp)
+      defn (analyze-defn sexp)
+      fn (analyze-fn sexp)
+      if (analyze-if sexp)
+      quote (analyze-quoted sexp) 
+      (analyze-application sexp))))
 
 (comment 
   (def test-env (extend-env '() '() global-env))
@@ -147,7 +151,7 @@
 ;; Evaluation
 
 (defn -eval [sexp env]
-  ((analize sexp) env))
+  ((analyze sexp) env))
 
 ;; Run program
 
@@ -155,13 +159,36 @@
   (let [env (extend-env '() '() global-env)]
     (last (map #(-eval % env) sexps))))
 
+;; REPL
+
+; (deftype Proc [params body env name])
+(defn user-print [obj]
+  (if (compound-procedure? obj)
+    (clojure.pprint/pprint 
+      {:compound-procedure (.name obj)
+       :params (.params obj)})
+    (println obj)))
+
+(defn driver-loop []
+  (loop [input (read)
+         env (extend-env '() '() global-env)]
+    (if (= (str input) "exit")
+      nil
+      (do 
+        (print ">")
+        (user-print (-eval input env))
+        (recur (read) env)))))
+
 (comment 
+
+  (driver-loop)
+
   (eval-program '( 
                   (def a 1)
                   (set! a 2)
                   a ))
 
-  (eval-program '( (cons 1 '()) ))
+  (eval-program '( (quote (+ 1 2 3)) ))
 
   (eval-program '((count [1 2 3])))
 
@@ -174,10 +201,11 @@
 
   (eval-program '((def a 2)
                   (defn test []
-                    (def a 1)
+                    (def a 2)
                     (def b 3)
+                    (set! a 1)
                     (* a a a))
-                  (cons (= (test) 1) '())
+                  (cons (= (test) 1) (cons a '()))
                   ))
 
   (eval-program '(
@@ -193,7 +221,11 @@
                     (even? x))
                   (f 4)
                   ))
-  
+
+  #_(eval-program '((defn try [a b]
+                      (if (= a 0) 1 b))
+                    (try 0 (/ 1 0))))
+
   (require '[portal.api :as p])
   (def p (p/open))
   (add-tap #'p/submit)
@@ -211,7 +243,7 @@
   ; dispatch on concrete types
   ; Execution time mean : 49.512234 µs
 
-  ; after analize
-  ; Execution time mean : 47.358229 µs
+  ; after analyze
+  ; Execution time mean : 42.358229 µs
 
   )
