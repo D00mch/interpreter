@@ -12,7 +12,7 @@
                               {:proc proc :args args}))))
 
 ;; returns fn: (env) -> evaluation result
-(defprotocol Ianalyze
+(defprotocol IAnalyze
   (analyze [exp]))
 
 (defn analyze-if [[_ pred conseq alt]]
@@ -75,7 +75,7 @@
 (defn analyze-let [sexp]
   (analyze (core/let->lambda sexp)))
 
-(extend-protocol Ianalyze
+(extend-protocol IAnalyze
   nil (analyze [_] (fn [_] nil))
 
   java.lang.Boolean (analyze [s] (fn [_] s))

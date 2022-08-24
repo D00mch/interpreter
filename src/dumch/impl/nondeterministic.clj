@@ -23,7 +23,7 @@
 ;; analyze
 
 ;; returns fn: (env) -> evaluation result
-(defprotocol Ianalyze
+(defprotocol IAnalyze
   (analyze [exp]))
 
 (defn analyze-quoted [[_ quotation]]
@@ -150,7 +150,7 @@
                   (fail)))]
         (try-next fns)))))
 
-(extend-protocol Ianalyze
+(extend-protocol IAnalyze
   nil (analyze [s] (analyze-self-evaluationg s))
 
   java.lang.Boolean (analyze [s] (analyze-self-evaluationg s))
