@@ -37,6 +37,15 @@
                                (cons v vs))))))
     (k '())))
 
+(defrecord Continuation [env k])
+
+(defn eval-seq [[h & tail] env k]
+  (cond tail (eval-cps h 
+                       env 
+                       (fn [_]
+                         (eval-seq tail env k)))
+        h (eval-cps h env k)))
+
 (extend-protocol IEvalCPS
   java.lang.Long
   (eval-cps [this _ k] (k this))
@@ -51,6 +60,9 @@
                   k 
                   #(top-k (format "%s not bound" this))))
 
+  Continuation
+  (eval-cps [this _ k] (k this))
+
   clojure.lang.ISeq
   (eval-cps [[op :as sexp] env k]
     (case op
@@ -64,10 +76,9 @@
                       (top-k (format "%s not a boolean" b))))))
 
       call-cc (let [[_ f] sexp]
-                (println :f )
-                (eval-cps (list f 'identity) env k))
+                (eval-cps (list f (Continuation. env k)) env k))
 
-      fn (let [[_ args body] sexp]
+      fn (let [[_ args & body] sexp]
            (k {:params args :body body :env env}))
 
       (let [[op & args] sexp] 
@@ -75,16 +86,19 @@
           op 
           env
           (fn [p]
+            (println :p p)
             (get-args 
               args 
               env 
               (fn [as]
-                (if (primitive-fn? p)
-                  (k (apply p as))
-                  (eval-cps (:body p)
-                            (->IEnv (zipmap (:params p) as) 
-                                    (:env p))
-                            k))))))))))
+                (cond 
+                  (primitive-fn? p) (k (apply p as))
+                  (instance? Continuation p)
+                  ((.k p) (first as))
+                  :else (eval-seq (:body p)
+                                  (->IEnv (zipmap (:params p) as) 
+                                          (:env p))
+                                  k))))))))))
 
 (defn run [exp]
   (eval-cps exp top-env identity))
@@ -92,8 +106,8 @@
 (comment 
   (lookup-env-k top-env 'x identity #(println :fuck!))
 
-  (run '(call-cc (fn [k] (k 0) 1)))
-  (run '(call-cc (fn [k] (ifte true (k 0) 1))))
+  (run '(call-cc (fn [k] (k 0) 1))) ;;=> 0
+  (run '(call-cc (fn [k] (ifte true (k 0) 1)))) ;;=> 1
 
   (run '(ifte (= x 2) 1 0))
   (run '(= x 2))
