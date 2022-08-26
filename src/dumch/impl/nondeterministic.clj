@@ -33,11 +33,11 @@
                fail))))
 
 (defn analyze-sequence [sq]
-  (let [sequentially (fn [f1 f2]
+  (let [sequentially (fn [a b]
                        (fn [env succeed fail]
-                         (f1 env 
+                         (a env 
                              (fn [_ fail2]
-                               (f2 env succeed fail2))
+                               (b env succeed fail2))
                              fail)))
         [f & fs] (map analyze sq)]
     (when (nil? f) 
@@ -73,8 +73,8 @@
     (fn [env succeed fail] 
       (val-fn env
               (fn [_val fail2]
-                (succeed (core/define-variable! _name _val env)
-                         fail2))
+                (core/define-variable! _name _val env)
+                (succeed nil fail2))
               fail))))
 
 (defn analyze-defn [[_ _name params & body]]
@@ -82,8 +82,8 @@
     (fn [env succeed fail]
       (make-proc-fn env
                     (fn [proc fail2]
-                      (succeed (core/define-variable! _name proc env)
-                               fail2))
+                      (core/define-variable! _name proc env)
+                      (succeed nil fail2))
                     fail))))
 
 (defn analyze-fn [[_ params & body]]
@@ -109,6 +109,7 @@
   (analyze (core/let->lambda sexp)))
 
 (defn execute-applicaiton [proc args succeed fail]
+  (println :proc proc :args args)
   (cond (core/primitive-procedure? proc) 
         (succeed (apply proc args) fail)
 
@@ -136,15 +137,15 @@
             fail))))
 
 (defn analyze-amb [[_ & amb-choices]]
+  (println :amb-choices amb-choices)
   (let [fns (map analyze amb-choices)]
     (fn [env succeed fail]
       (letfn [(try-next [choices]
                 (if (seq choices)
-                  ((nth choices 0)
-                   env
-                   succeed
-                   (fn []
-                     (try-next (next choices))))
+                  ((nth choices 0) env
+                                   succeed
+                                   (fn []
+                                     (try-next (next choices))))
                   (fail)))]
         (try-next fns)))))
 
@@ -184,69 +185,34 @@
 
 ;; Run program
 
-(defn eval-program 
+(defn eval-seq [[h & tail :as code] env succeed fail]
+  (ambeval  (cons 'do code) env succeed fail))
+
+(defn eval-program
   ([sexps]
    (let [result (atom nil)]
      (eval-program sexps (core/extend-env) result)
      @result))
-  ([[head & tail] env result]
-   (ambeval head
-            env
-            (fn [v _]
-              (if (seq tail)
-                (eval-program tail env result)
-                (reset! result v)))
-            #(println :failed))
+  ([sexp env result]
+   (eval-seq sexp
+             env
+             (fn [v _] 
+               (reset! result v))
+             #(println "final fail"))
    @result))
 
-;; REPL
-
-(defn user-print [obj]
-  (if (core/compound-procedure? obj)
-    (pprint 
-      {:compound-procedure (.name obj)
-       :params (.params obj)})
-    (println obj)))
-
-(defn driver-loop 
-  ([]
-   (driver-loop (core/extend-env)))
-  ([env]
-   (letfn [(inloop [try-again]
-             (let [input (read)]
-               (cond (= (str input) "exit") nil
-                     (= (str input) "try-again") (try-again) 
-                     :else 
-                     (do 
-                       (print ">")
-                       (ambeval
-                         input
-                         env
-                         ;; success
-                         (fn [value next-alternative]
-                           (user-print value)
-                           (inloop next-alternative))
-                         ;; failure
-                         (fn []
-                           (println "There are no more values of")
-                           (user-print input)))
-                       #_(user-print (-eval input env))
-                       (recur (read))))))] 
-     (inloop 
-       (fn []
-         (println)
-         (println "There is no ")
-         (driver-loop env))))))
-
-
 (comment 
-  (driver-loop)
-
   (eval-program '(
                   (let [a (amb 1 2 3)]
                     (if (< a 3) (amb))
                     a
                     )
+                  ))
+
+  (eval-program '(
+                  (def a (amb 1 2 3))
+                  (if (not (> a 2)) (amb))
+                  a
                   ))
 
   (eval-program '(
@@ -258,16 +224,10 @@
                     (amb (first items)
                          (an-element-of (next items))))
 
-                  (defn test-fn [list1 list2]
-                    (let [a (an-element-of list1)
-                          b (an-element-of list2)]
-                      (require (> (+ a b) 2))
-                      a))
+                  (def a (an-element-of [1 2 3]))
 
-                  (test-fn [1 2 3 4 5] [1 2 3 4 5])
+                  (require (> a 2))
 
-                  ;; TODO: fix this example
-                  #_(require (> a 1))
-
+                  a
                   ))
   ,)
