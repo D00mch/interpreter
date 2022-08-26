@@ -31,11 +31,13 @@
     (eval-cps arg
               env
               (fn [v]
-                (k (get-args args 
-                             env 
-                             (fn [vs]
-                               (cons v vs))))))
+                (get-args args 
+                          env 
+                          (fn [vs]
+                            (k (cons v vs))))))
     (k '())))
+
+;(get-args [1 2 '(+ 1 2)] top-env identity)
 
 (defrecord Continuation [env k])
 
@@ -106,8 +108,13 @@
 (comment 
   (lookup-env-k top-env 'x identity #(println :fuck!))
 
+  (run '(call-cc (fn [k0]
+                   (+ 1
+                      2 
+                      (k0 1)))))
+
   (run '(call-cc (fn [k] (k 0) 1))) ;;=> 0
-  (run '(call-cc (fn [k] (ifte true (k 0) 1)))) ;;=> 1
+  (run '(call-cc (fn [k] (ifte true (k 0) 1)))) ;;=> 0
 
   (run '(ifte (= x 2) 1 0))
   (run '(= x 2))

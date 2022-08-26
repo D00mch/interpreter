@@ -15,14 +15,17 @@
 (defprotocol IAnalyze
   (analyze [exp]))
 
+(defn -eval [sexp env]
+  ((analyze sexp) env))
+
 (defn analyze-if [[_ pred conseq alt]]
   (let [pred-fn (analyze pred)
         conseq-fn (analyze conseq)
         alt-fn (analyze alt)]
     (fn [env]
       (if (true? (pred-fn env))
-        (conseq-fn env)
-        (alt-fn env)))))
+        (when conseq-fn (conseq-fn env))
+        (when alt-fn (alt-fn env))))))
 
 (defn analyze-sequence [sq]
   (let [sequentially (fn [f1 f2]
@@ -112,11 +115,6 @@
 
   #_(-apply p '(1 2 3))
   )
-
-;; Evaluation
-
-(defn -eval [sexp env]
-  ((analyze sexp) env))
 
 ;; Run program
 

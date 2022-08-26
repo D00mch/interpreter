@@ -1,4 +1,5 @@
-(ns dumch.environment)
+(ns dumch.environment
+  (:require [clojure.pprint :refer [pprint]]))
 
 (set! *warn-on-reflection* true)
 
@@ -40,11 +41,17 @@
 (defn set-variable-value! [-name value ^Frame env]
   (if (lookup-variable-value env -name)
     (define-variable! -name value env)
-    (throw (ex-info "Unbound variable: " {:name -name}))))
+    (throw (ex-info "Unbound variable" {:name -name}))))
 
 ;; # Procedure
 
-(deftype Proc [params body env name])
+(deftype Proc [params body env name]
+  Object
+  (toString [_]
+    (with-out-str 
+      (pprint {:params params, :body body, :name name}))))
+
+; (println (Proc. [1 2] '(+ 1 2) nil nil))
 
 (def primitive-procedure? (set (vals primitive-procedure-map)))
 (def compound-procedure? #(-> % class (= Proc)))

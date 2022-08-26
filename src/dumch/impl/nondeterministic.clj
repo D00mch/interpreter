@@ -5,21 +5,6 @@
 
 (set! *warn-on-reflection* true)
 
-;; # Procedure
-
-(defn execute-applicaiton [proc args succeed fail]
-  (cond (core/primitive-procedure? proc) 
-        (succeed (apply proc args) fail)
-
-        (core/compound-procedure? proc)
-        (let [proc ^Proc proc] 
-          ((.body proc)
-           (core/extend-env (.params proc) args (.env proc))
-           succeed
-           fail))
-        :else (throw (ex-info  "Unknown procedure type: "  
-                              {:proc proc :args args}))))
-
 ;; analyze
 
 ;; returns fn: (env) -> evaluation result
@@ -122,6 +107,19 @@
 
 (defn analyze-let [sexp]
   (analyze (core/let->lambda sexp)))
+
+(defn execute-applicaiton [proc args succeed fail]
+  (cond (core/primitive-procedure? proc) 
+        (succeed (apply proc args) fail)
+
+        (core/compound-procedure? proc)
+        (let [proc ^Proc proc] 
+          ((.body proc)
+           (core/extend-env (.params proc) args (.env proc))
+           succeed
+           fail))
+        :else (throw (ex-info  "Unknown procedure type: "  
+                              {:proc proc :args args}))))
 
 (defn analyze-application [[op & operands]]
   (let [f-fn (analyze op)
