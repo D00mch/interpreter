@@ -14,6 +14,7 @@
    'first first 'rest rest 'next next 'last last 'cons cons 
    'count count 'seq seq 'not not 'some? some?
    'println println 'identity identity
+   'pop pop 'conj conj 'peek peek
    '= =})
 
 (def global-env (Frame. primitive-procedure-map nil))
@@ -29,6 +30,8 @@
    (extend-env '() '() global-env))
   ([base-env]
    (extend-env '() '() base-env))
+  ([base-env m]
+   (Frame. (java.util.HashMap. ^java.util.Map m) base-env))
   ([variables values base-env]
    (Frame. (java.util.HashMap. 
              ^java.util.Map (zipmap variables values)) base-env)))
