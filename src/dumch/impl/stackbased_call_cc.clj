@@ -127,7 +127,10 @@
 (defn analyze-application [[_ op args-count]] ;; (invoke> + 2)
   (let [op-fn (analyze op)]
     (fn [{:keys [env ds] :as state}]
-      (let [stack* (subvec ds 0 (- (count ds) args-count))
+      (let [args-count (if (number? args-count) 
+                         args-count
+                         (core/lookup-variable-value env args-count))
+            stack* (subvec ds 0 (- (count ds) args-count))
             args (take-last args-count ds)
             state* (assoc state :ds stack*)]
         (execute-applicaiton 
