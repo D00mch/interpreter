@@ -3,6 +3,8 @@
             [dumch.environment :as core])
   (:import (dumch.environment Proc Frame)))
 
+;; TODO: fix tailrec with trampoline
+
 (set! *warn-on-reflection* true)
 
 (defprotocol IAnalyze

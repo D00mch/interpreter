@@ -14,8 +14,7 @@
    'first first 'rest rest 'next next 'last last 'cons cons 
    'count count 'seq seq 'not not 'some? some?
    'println println 'identity identity
-   '= (fn [& args]
-        (if (apply = args) 'true 'false)) })
+   '= =})
 
 (def global-env (Frame. primitive-procedure-map nil))
 
