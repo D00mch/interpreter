@@ -50,7 +50,7 @@
     (let [sq (peek stack)
           stack* (pop stack)
           env* (core/extend-env env)]
-      (assert (seq? sq) "call/cc should have quote> as an arg")
+      (assert (seq? sq) "call should have quote> as an arg")
       ((analyze-sequence sq)
        env*
        stack*))))
@@ -78,7 +78,8 @@
       (conj stack result))))
 
 (defn execute-applicaiton [proc args stack]
-  (cond (core/primitive-procedure? proc) (apply proc args)
+  (cond (core/primitive-procedure? proc) 
+        (conj stack (apply proc args))
         (core/compound-procedure? proc)
         (let [proc ^Proc proc] 
           ((.body proc)
@@ -91,12 +92,11 @@
   (let [op-fn (analyze op)]
     (fn [env stack]
       (let [stack* (subvec stack 0 (- (count stack) args-count))
-            args (take-last args-count stack)
-            result (execute-applicaiton 
-                     (-> (op-fn env stack) peek) 
-                     args
-                     stack)]
-        (conj stack* result)))))
+            args (take-last args-count stack)]
+        (execute-applicaiton 
+          (-> (op-fn env stack) peek) 
+          args
+          stack*)))))
 
 (defn- def? [^String sym]
   (and (str/starts-with? sym "!") (str/ends-with? sym "+")))
