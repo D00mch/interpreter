@@ -30,7 +30,7 @@
 (def inf-prot (atom 0))
 
 (defn eval-program [{[h & tail] :cs :as state}]
-  (println :ds (:ds state) :cs (:cs state))
+  ;(println :ds (:ds state) :cs (:cs state))
   (if (or (some? h) (some? tail))
     ;; todo: use recur (doesn't work with #trace)
     (eval-program (-eval h (assoc state :cs tail)))
@@ -84,14 +84,15 @@
           q-result ((analyze sq) state*)]
       (assoc q-result :env env))))
 
-;; call/cc ( [ quot & ds ] cs – [ cs ds ] quot )
 (defn analyze-call-cc [[_ quote]]
   (let [sq-fn (analyze quote)]
-    (fn [{:keys [ds cs env] :as state}]
+    (fn [{:keys [cs] :as state}]
       (let [state* (update state :ds conj (Continuation. cs))
             quote-fn-r (sq-fn state*)
             sq (peek (:ds quote-fn-r))]
-        (assoc state* :cs sq)))))
+        ; `eval-program` here to have the :env as it is  
+        ; (and function is resetting :env after application)
+        (eval-program (assoc state* :cs sq))))))
 
 (defn analyze-quoted [[op :as sexp]]
   (analyze-self-evaluating (case op
@@ -151,16 +152,12 @@
                          arity
                          best)))))
 
-#_{:params [!a !b], :var-params !sq, :body [...]}
-
 (defn- zip-params-args [{:keys [params var-params]} args]
   (let [pcount (count params)
         varargs (seq (drop pcount args))
         params* (cond-> params varargs (conj var-params))
         args* (cond-> (vec (take pcount args))  varargs (conj varargs))]
     (zipmap params* args*)))
-
-#_(zip-params-args '{:params [!a !b], :var-params !sq, :body [...]} [1 2 3 4])
 
 (defn execute-applicaiton [proc args state]
   (cond (core/primitive-procedure? proc) 
@@ -202,7 +199,6 @@
         i2 (dec i1)]
     (assoc v i2 (v i1) i1 (v i2))))
 
-#trace
 (extend-protocol IAnalyze
   nil (analyze [s] (analyze-self-evaluating s))
   java.lang.Boolean (analyze [s] (analyze-self-evaluating s))
@@ -238,16 +234,25 @@
       (analyze-sequence sexp))))
 
 (comment
-  
-  
+
+  (program->stack '(
+
+                    (defn> each
+                      [!a]
+                      (call/cc>
+                        (quote>
+                          !a)))
+
+                    1
+                    (invoke> each 1)
+                    ))
+
   (program->stack '(
                     
                     (defn> each
                       [!vc !quot]
                       (call/cc>
                         (quote>
-                          !continue+
-                          <pop>
                           !vc
                           (if>
                             !vc
@@ -262,8 +267,7 @@
 
                     '(1 2 3)
                     (quote>
-                      (invoke> !continue 0)
-                      ">>> number: " 
+                      ">>> number: "
                       <swap>
                       (invoke> println 2))
                     (invoke> each 2)
@@ -272,6 +276,7 @@
 
   (program->stack '(
                     1
+                    !a+
                     (call/cc>
                       (quote>
                         !c1+
@@ -279,9 +284,9 @@
                         2
                         (call/cc> (quote> !c2+ 
                                           <pop> 
-                                          (invoke> !c1 0)
-                                          9 
-                                          (invoke> !c2 0)))
+                                          (invoke> !c2 0) 
+                                          9))
+                        (invoke> !c1 0)
                         3
                         ))
                     "end"
@@ -319,7 +324,8 @@
                   ))
 
   (program->stack '(
-                    (quote> 1 2 3 !c+)
+                    2 !a+
+                    (quote> 1 2 3 !a)
                     <call>
                     ))
 
