@@ -3,8 +3,6 @@
             [dumch.environment :as core])
   (:import (dumch.environment Proc Frame)))
 
-;; TODO: fix tailrec with trampoline
-
 (set! *warn-on-reflection* true)
 
 (defprotocol IAnalyze
@@ -13,13 +11,13 @@
 (deftype Continuation [env k])
 
 (defn eval-cps [sexp env k]
-  ((analyze sexp) env k))
+  (trampoline (analyze sexp) env k))
 
 (defn analyze-quoted [[_ quotation]]
-  (fn [_ k] (k quotation)))
+  (fn [_ k] #(k quotation)))
 
 (defn analyze-self-evaluating [exp]
-  (fn [_ k] (k exp)))
+  (fn [_ k] #(k exp)))
 
 (defn analyze-assignment [[_ _name v]]
   (let [val-fn (analyze v)]
@@ -27,7 +25,7 @@
       (val-fn 
         env 
         (fn [v]
-          (k (core/set-variable-value! _name v env)))))))
+          #(k (core/set-variable-value! _name v env)))))))
 
 (defn analyze-if [[_ pred conseq alt]]
   (let [pred-fn (analyze pred)
@@ -36,14 +34,16 @@
     (fn [env k]
       (pred-fn env (fn [b]
                      (if b 
-                       (conseq-fn env k)
-                       (alt-fn env k)))))))
+                       #(conseq-fn env k)
+                       #(alt-fn env k)))))))
 
 (defn analyze-sequence [sq]
   (let [sequentially (fn [f1 f2]
                        (fn [env k]
-                         (f1 env (fn [_]
-                                    (f2 env k)))))
+                         (trampoline f1
+                                     env
+                                     (fn [_]
+                                       #(f2 env k)))))
         [f & fs] (map analyze sq)]
     (when (nil? f) 
       (throw (ex-info "Empty sequence: analyze" {})))
@@ -63,19 +63,19 @@
   (let [val-fn (analyze-lambda params body _name)]
     (fn [env k] 
       (val-fn env (fn [v]
-                    (k (core/define-variable! _name v env)))))))
+                    #(k (core/define-variable! _name v env)))))))
 
 (defn analyze-def [[_ _name v]]
   (let [val-fn (analyze v)]
     (fn [env k] 
       (val-fn env (fn [v]
-                    (k (core/define-variable! _name v env)))))))
+                    #(k (core/define-variable! _name v env)))))))
 
 
 (defn analyze-fn [[_ params & body]]
   (let [make-proc-fn (analyze-lambda params body nil)]
     (fn [env k] 
-      (make-proc-fn env k))))
+      #(make-proc-fn env k))))
 
 (defn analyze-let [sexp]
   (analyze (core/let->lambda sexp)))
@@ -97,7 +97,7 @@
 (defn get-args [[arg-f & arg-fns] env k]
   (if arg-f
     (arg-f env (fn [v]
-                 (get-args arg-fns 
+                 #(get-args arg-fns 
                            env 
                            (fn [vs]
                              (k (cons v vs))))))
@@ -111,7 +111,7 @@
                   (get-args args-fns 
                             env 
                             (fn [args]
-                              (execute-applicaiton
+                              #(execute-applicaiton
                                 f
                                 args
                                 k))))))))
@@ -155,14 +155,21 @@
 
 (defn eval-program [sexps]
   (let [env (core/extend-env)]
-    (last (map #(eval-cps % env identity) 
+    ((analyze-sequence sexps) env identity)
+    #_(last (map #(eval-cps % env identity) 
                sexps))))
 
 (comment
 
+  (eval-program '(+ 1 (+ 2 (+ 3 (+ 4 (+ 5 6))))))
+
   (eval-program '(
-                  (if (= 2 2) 2 0)
-                  ))
+                  (defn recurtest [n]
+                    (if (= n 0)
+                      n
+                      (recurtest (- n 1)))) 
+                  ;; not stackoverflow
+                  (recurtest 100000)))
 
   (eval-program '(
                   (+ 1 (if (= 2 2) 2 0))
@@ -212,7 +219,7 @@
                       (cc cc)
                       x))))
 
-  ; (require '[flow-storm.api :as fs-api])
-  ; (fs-api/local-connect)
-  ; (fs-api/stop)
+  (require '[flow-storm.api :as fs-api])
+  (fs-api/local-connect)
+  (fs-api/stop)
   )
