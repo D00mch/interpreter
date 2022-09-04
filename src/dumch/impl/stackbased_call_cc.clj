@@ -7,6 +7,10 @@
   (:import
    (dumch.environment Proc)))
 
+;; Tried to implement call/cc, but found a dilemma:
+;; I can have either call/cc or local scope vars.
+;; see `analyze-sequence` for the details 
+
 ;; data stack, call stack, environment
 (defrecord State [ds cs env]
   Object
@@ -48,19 +52,22 @@
     (update state :ds conj sexp)))
 
 (defn analyze-sequence [sq]
-  (let [sequentially (fn [f1 f2]
-                       (fn [state]
-                         (let [state2 (f1 state)]
-                           (f2 state2))))
-        [f & fs] (map analyze sq)]
-    (when (nil? f)
-      (throw (ex-info "Empty sequence: analyze" {})))
-    (loop [f f
-           fs fs]
-      (if (seq fs)
-        (recur (sequentially f (nth fs 0))
-               (next fs))
-        f))))
+  (fn [{:keys [cs env] :as state}]
+    (eval-program (assoc state :cs (concat sq cs))))
+  ;; below implementation won't respect call/cc
+  #_(let [sequentially (fn [f1 f2]
+                         (fn [state]
+                           (let [state2 (f1 state)]
+                             (f2 state2))))
+          [f & fs] (map analyze sq)]
+      (when (nil? f)
+        (throw (ex-info "Empty sequence: analyze" {})))
+      (loop [f f
+             fs fs]
+        (if (seq fs)
+          (recur (sequentially f (nth fs 0))
+                 (next fs))
+          f))))
 
 (defn analyze-if [sexp]
   (let [[[_ & conseq] [_ & alt]] 
@@ -72,7 +79,7 @@
             state* (-> (update state :ds pop)
                        (update :env core/extend-env))
             r (if (or (false? pred) (nil? pred))
-                (alt-fn state)
+                (alt-fn state*)
                 (conseq-fn state*))]
         (assoc r :env env)))))
 
@@ -84,8 +91,8 @@
           q-result ((analyze sq) state*)]
       (assoc q-result :env env))))
 
-(defn analyze-call-cc [[_ quote]]
-  (let [sq-fn (analyze quote)]
+(defn analyze-call-cc [[_ & quote]]
+  (let [sq-fn (analyze (cons 'quote> quote))]
     (fn [{:keys [cs] :as state}]
       (let [state* (update state :ds conj (Continuation. cs))
             quote-fn-r (sq-fn state*)
@@ -211,10 +218,11 @@
   (analyze [sym]
     (let [^String _name (name sym)]
       (cond (= sym '<pop>) (fn [state] (update state :ds pop))
+            (= sym '<dup>) (fn [{:keys[ds] :as state}] 
+                             (update state :ds conj (last ds)))
             (= sym '<swap>) (fn [state] (update state :ds swap))
             (= sym '<call>) (analyze-call sym)
             (= sym '<cc>) (fn [state] (update state :ds conj '<cc>))
-            ;; to allow call/cc we have to be able to modify call stack
             (def? _name) (analyze-def sym)
             :else (analyze-lookup sym)))) 
 
@@ -236,59 +244,96 @@
 (comment
 
   (program->stack '(
-
-                    (defn> each
-                      [!a]
-                      (call/cc>
-                        (quote>
-                          !a)))
-
-                    1
-                    (invoke> each 1)
+                    (each>
+                      
+                      <continue>
+                      
+                      <break>
+                      )
                     ))
 
   (program->stack '(
-                    
                     (defn> each
                       [!vc !quot]
-                      (call/cc>
-                        (quote>
-                          !vc
-                          (if>
-                            !vc
-                            (invoke> first 1)
-                            !quot
-                            <call>
-                            !vc
-                            (invoke> next 1)
-                            !quot
-                            (invoke> each 2)
-                            else>))))
+                      !vc
+                      (if>
+                        !vc
+                        (invoke> first 1)
+                        !quot
+                        <call>
+                        !vc
+                        (invoke> next 1)
+                        !quot
+                        (invoke> each 2)
+                        else>
+                        <pop>))
 
-                    '(1 2 3)
-                    (quote>
-                      ">>> number: "
-                      <swap>
-                      (invoke> println 2))
-                    (invoke> each 2)
+                    (call/cc> 
+                      !break+ <pop>
+                      '(1 2 3 4)
+                      (quote>
+                        (call/cc>
+                          !continue+ <pop>
+                          !input+
+                          !input
+                          (invoke> even? 1)
+                          (if> (invoke> !continue 0) 
+                               else> "not even" (invoke> println 1) <pop>)
 
+                          !input
+                          ">>> number: "
+                          <swap>
+                          (invoke> println 2)
+                          <pop>
+                          !input
+                          3
+                          (invoke> < 2)
+                          (if> (invoke> !break 0) else> <pop>)
+                          ))
+                      (invoke> each 2)
+                      )
                     ))
 
+  (program->stack '(
+                    (defn> each
+                      [!vc !quot]
+                      !vc
+                      (if>
+                        !vc
+                        (invoke> first 1)
+                        !quot
+                        <call>
+                        !vc
+                        (invoke> next 1)
+                        !quot
+                        (invoke> each 2)
+                        else>
+                        <pop>))
+
+                    (call/cc> 
+                      !break+ <pop>
+                      '(1 2 3 4)
+                      (quote>
+                        (invoke> !break 0))
+                      (invoke> each 2)
+                      )))
+
+  
   (program->stack '(
                     1
                     !a+
                     (call/cc>
-                      (quote>
-                        !c1+
-                        <pop>
-                        2
-                        (call/cc> (quote> !c2+ 
-                                          <pop> 
-                                          (invoke> !c2 0) 
-                                          9))
-                        (invoke> !c1 0)
-                        3
-                        ))
+                      !c1+
+                      <pop>
+                      2
+                      (call/cc> !c2+ 
+                                <pop> 
+                                true
+                                (if> (invoke> !c2 0) else> 0) 
+                                9)
+                      (invoke> !c1 0)
+                      3
+                      )
                     "end"
                     ))
 
@@ -325,8 +370,9 @@
 
   (program->stack '(
                     2 !a+
-                    (quote> 1 2 3 !a)
+                    (quote> 1 2 3 !b+)
                     <call>
+                    !b
                     ))
 
   (require '[flow-storm.api :as fs-api])
