@@ -222,7 +222,6 @@
                              (update state :ds conj (last ds)))
             (= sym '<swap>) (fn [state] (update state :ds swap))
             (= sym '<call>) (analyze-call sym)
-            (= sym '<cc>) (fn [state] (update state :ds conj '<cc>))
             (def? _name) (analyze-def sym)
             :else (analyze-lookup sym)))) 
 
@@ -232,12 +231,10 @@
       set! (analyze-assignment sexp) 
       def (analyze-def sexp)
       defn> (analyze-defn sexp)
-      ; fn (analyze-fn sexp)
       call/cc> (analyze-call-cc sexp)
       if> (analyze-if sexp)
       quote> (analyze-quoted sexp) 
       quote (analyze-quoted sexp)
-      ; let (analyze-let sexp)
       invoke> (analyze-application sexp)
       (analyze-sequence sexp))))
 

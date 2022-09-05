@@ -10,9 +10,6 @@
 
 (deftype Continuation [env k])
 
-(defn eval-cps [sexp env k]
-  (trampoline (analyze sexp) env k))
-
 (defn analyze-quoted [[_ quotation]]
   (fn [_ k] #(k quotation)))
 
@@ -132,12 +129,10 @@
   clojure.lang.IPersistentVector (analyze [s] (analyze-self-evaluating s))
   Continuation (analyze [s] (analyze-self-evaluating s))
 
-
   clojure.lang.Symbol
   (analyze [sexp]
     (fn [env k]
-      (k (core/lookup-variable-value env sexp)))) 
-
+      #(k (core/lookup-variable-value env sexp)))) 
 
   clojure.lang.ISeq
   (analyze [[op :as sexp]]
