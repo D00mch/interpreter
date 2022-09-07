@@ -25,21 +25,20 @@
   (let [sequentially 
         (fn [f1 f2]
           (fn [env ds k]
-            (trampoline f1
-                        env
-                        ds
-                        (fn [ds2]
-                          #_(println :ds ds)
-                          #(f2 env ds2 k)))))
+            (fn [] (f1
+                     env
+                     ds
+                     (fn [ds2]
+                       (f2 env ds2 k))))))
         [f & fs] (map analyze sq)]
-    (when (nil? f) 
-      (throw (ex-info "Empty sequence: analyze" {})))
-    (loop [f f
-           fs fs]
-      (if (seq fs)
-        (recur (sequentially f (nth fs 0))
-               (next fs))
-        f))))
+    (if (nil? f) 
+      (fn [_ ds k] #(k ds))
+      (loop [f f
+             fs fs]
+        (if (seq fs)
+          (recur (sequentially f (nth fs 0))
+                 (next fs))
+          f)))))
 
 (defn analyze-if [sexp]
   (let [[[_ & conseq] [_ & alt]] (split-with (partial not= 'else>) sexp)

@@ -35,12 +35,14 @@
                        #(alt-fn env k)))))))
 
 (defn analyze-sequence [sq]
+
   (let [sequentially (fn [f1 f2]
                        (fn [env k]
-                         (trampoline f1
-                                     env
-                                     (fn [_]
-                                       #(f2 env k)))))
+                         (fn []
+                           (f1
+                             env
+                             (fn [_]
+                               (f2 env k))))))
         [f & fs] (map analyze sq)]
     (when (nil? f) 
       (throw (ex-info "Empty sequence: analyze" {})))
@@ -150,7 +152,7 @@
 
 (defn eval-program [sexps]
   (let [env (core/extend-env)]
-    ((analyze-sequence sexps) env identity)
+    (trampoline (analyze-sequence sexps) env identity)
     #_(last (map #(eval-cps % env identity) 
                sexps))))
 
@@ -160,10 +162,11 @@
 
   (eval-program '(
                   (defn recurtest [n]
-                    (if (= n 0)
-                      n
-                      (recurtest (- n 1)))) 
-                  ;; not stackoverflow
+                    (do 1
+                        (if (= n 0)
+                          n
+                          (recurtest (- n 1))))) 
+                  ;; no stackoverflow
                   (recurtest 100000)))
 
   (eval-program '(
