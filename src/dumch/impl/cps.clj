@@ -35,7 +35,6 @@
                        #(alt-fn env k)))))))
 
 (defn analyze-sequence [sq]
-
   (let [sequentially (fn [f1 f2]
                        (fn [env k]
                          (fn []
@@ -44,14 +43,14 @@
                              (fn [_]
                                (f2 env k))))))
         [f & fs] (map analyze sq)]
-    (when (nil? f) 
-      (throw (ex-info "Empty sequence: analyze" {})))
-    (loop [f f
-           fs fs]
-      (if (seq fs)
-        (recur (sequentially f (nth fs 0))
-               (next fs))
-        f))))
+    (if (nil? f) 
+      (fn [_ k] k)
+      (loop [f f
+             fs fs]
+        (if (seq fs)
+          (recur (sequentially f (nth fs 0))
+                 (next fs))
+          f)))))
 
 (defn analyze-lambda [params body-sq _name]
   (let [body-fn (analyze-sequence body-sq)]
@@ -150,17 +149,31 @@
       let (analyze-let sexp)
       (analyze-application sexp))))
 
-(defn eval-program [sexps]
+(defn eval- [sexps]
   (let [env (core/extend-env)]
     (trampoline (analyze-sequence sexps) env identity)
     #_(last (map #(eval-cps % env identity) 
                sexps))))
 
+(defn eval- 
+  ([cs]
+   (eval- cs (core/extend-env)))
+  ([cs env]
+   (eval- cs env identity))
+  ([[head & tail :as cs] env k]
+   (cond (some? tail)
+         (trampoline (analyze head)
+                     env
+                     (fn [_]
+                       #(eval- tail env k)))
+         (some? head)
+         #((analyze head) env k))))
+
 (comment
 
-  (eval-program '(+ 1 (+ 2 (+ 3 (+ 4 (+ 5 6))))))
+  (eval- '(+ 1 (+ 2 (+ 3 (+ 4 (+ 5 6))))))
 
-  (eval-program '(
+  (eval- '(
                   (defn recurtest [n]
                     (do 1
                         (if (= n 0)
@@ -169,17 +182,17 @@
                   ;; no stackoverflow
                   (recurtest 100000)))
 
-  (eval-program '(
+  (eval- '(
                   (+ 1 (if (= 2 2) 2 0))
                   ))
 
-  (eval-program '(
+  (eval- '(
                   (def a 1)
                   (set! a 2)
                   ((fn [x y] (+ x y)) a 3)
                   ))
 
-  (eval-program '((def a 2)
+  (eval- '((def a 2)
                   (defn test []
                     (def a 2)
                     (def b 3)
@@ -188,7 +201,7 @@
                   (cons (= (test) 1)
                         (cons a '()))))
 
-  (eval-program '(
+  (eval- '(
                   (call-cc
                     (fn [k]
                       (if true (call-cc
@@ -198,7 +211,7 @@
                       1))
                   ))
 
-  (eval-program
+  (eval-
     '(
       (call-cc (fn [k0]
                  (+ 1
@@ -209,7 +222,7 @@
 
   ;; TODO: fix call/cc with example below; prob. problem with let
 
-  (eval-program '(
+  (eval- '(
                   (def x 0)
                   (let [cc (call-cc (fn [k] k))]
                     (set! x (+ x 1))
