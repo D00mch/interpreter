@@ -8,14 +8,21 @@
 (deftype Frame [^java.util.Map bindings outer])
 
 (def primitive-procedure-map 
-  {'+ +, '- -, '* *, '/ / '> > '< < '>= >= '<= <= 
-   'rem rem 'quot quot 'nil? nil?  
-   'even? even? 'odd? odd? 'number? number?
-   'first first 'rest rest 'next next 'last last 'cons cons 
-   'count count 'seq seq 'not not 'some? some?
-   'println println 'identity identity
-   'pop pop 'conj conj 'peek peek
-   '= =})
+  {'nil? nil? 'string? string? 'identity identity 'some? some?  
+   'boolean? boolean? 'not not 'instance? instance? 'char? char?
+   'str str 'print 'print 'prn prn 'pr pr 'println println
+   '= = 'not= not=
+
+   ;; numbers
+   '== == '+ +, '- -, '* *, '/ / '> > '< < '>= >=
+   '<= <= '+' +', '-' '-', '*' *', 'rem rem 'quot quot
+   'even? even? 'odd? odd? 'dec dec 'inc inc 'number? number?
+
+   ;; sequence
+   'first first 'last last 'rest rest 'next next 'cons cons
+   'count count 'seq seq 'pop pop 'conj conj 'peek peek
+   'range range 'drop drop 'take take 'empty? empty?
+   'vector vector 'vec vec 'list list})
 
 (def global-env (Frame. primitive-procedure-map nil))
 

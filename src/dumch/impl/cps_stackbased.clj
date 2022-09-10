@@ -7,12 +7,14 @@
   (:import
     (dumch.environment Proc)))
 
-(set! *warn-on-reflection* nil)
+(set! *warn-on-reflection* 1)
 
 (defprotocol IAnalyze
   (analyze [sepx]))
 
-(deftype Continuation [env k])
+(deftype Continuation [k])
+
+(deftype Native [sym])
 
 (defrecord Arity [params var-params body])
 (defrecord Defn [arities env fn-name])
@@ -49,17 +51,21 @@
             stack* (pop ds)
             env* (core/extend-env env)
             r (if (or (false? pred) (nil? pred))
-                (alt-fn env* stack* k)
-                (conseq-fn env* stack* k))]
+                #(alt-fn env* stack* k)
+                #(conseq-fn env* stack* k))]
         r))))
 
-(defn analyze-assignment [sexp]
-  (fn [env ds k] 
-    (let [value (peek ds)]
-      (core/set-variable-value! sexp value env)
-      #(k ds))))
+(defn analyze-when [sexp]
+  (let [conseq-fn (analyze (rest sexp))]
+    (fn [env ds k]
+      (let [pred (peek ds)
+            stack* (pop ds)
+            env* (core/extend-env env)
+            r (if (or (false? pred) (nil? pred))
+                #(k (pop ds))
+                #(conseq-fn env* stack* k))]
+        r))))
 
-#trace
 (defn analyze-call [_]
   (fn [env ds k]
     (let [sq (peek ds)
@@ -68,12 +74,46 @@
       #((analyze sq) env* ds* k))))
 
 (defn analyze-call-cc [sexp]
-  (let [sq-fn (analyze-sequence (next sexp))]
+  (let [sq-fn (analyze (rest sexp))]
     (fn [env ds k]
       (sq-fn env
-             (conj ds (Continuation. env k))
+             (conj ds (Continuation. k))
              (fn [ds*]
                #(k ds*))))))
+
+(defn generate-call-cc [sym]
+  (let [cc-function (analyze (list 'invoke> sym 0))]
+    (fn [env ds k] 
+      (cc-function env ds (fn [cc]
+                            #(k (conj ds cc)))))))
+
+(defn loop-vals [body-fn [v & tail] env ds k]
+  (if v
+    #(let [k2 (fn [ds2]
+               (loop-vals body-fn tail env ds2 k))]
+      (core/define-variable! '<continue_> (Continuation. k2) env)
+      (body-fn env (conj ds v) k2))
+    #(k ds)))
+
+(defn loop-count [body-fn cnt env ds k]
+  (if (> cnt 0)
+    #(let [k2 (fn [ds2]
+                (loop-count body-fn (dec cnt) env ds2 k))]
+       (core/define-variable! '<continue_> (Continuation. k2) env)
+       (body-fn env ds k2))
+    #(k ds)))
+
+(defn analyze-loop [sexp loop-fn]
+  (let [for-fn (analyze (rest sexp))]
+    (fn [env ds k]
+      (core/define-variable! '<break_> (Continuation. k) env)
+      #(loop-fn for-fn (peek ds) env (pop ds) k))))
+
+(defn analyze-each [sexp]
+  (analyze-loop sexp loop-vals))
+
+(defn analyze-times [sexp]
+  (analyze-loop sexp loop-count))
 
 (defn analyze-quoted [[op :as sexp]]
   (analyze-self-evaluating (case op
@@ -89,10 +129,16 @@
 (defn analyze-def [sexp]
   (let [^String _name (name sexp)
         sym (symbol (subs _name 0 (dec (.length _name))))]
-    (fn [env st k] 
-      (let [value (peek st)]
+    (fn [env ds k] 
+      (let [value (peek ds)]
         (core/define-variable! sym value env)
-        #(k st)))))
+        #(k ds)))))
+
+#trace
+(defn analyze-native [sexp]
+  (let [native (Native. sexp)]
+    (fn [_ ds k]
+      #(k (conj ds native)))))
 
 (defn analyze-lookup [sym]
   (fn [env stack k]
@@ -116,22 +162,20 @@
         env)
       #(k stack))))
 
-(defn- match-defn-arity [^Defn {:keys [arities env]} args]
-  (loop [[{:keys [params var-params] :as arity} & tail] arities
-         best nil]
-    (cond (nil? arity) best
-
-          ;; exact match
-          (and (= (count params) (count args)) (nil? var-params))
-          arity
-
-          :else (recur tail
-                       (if (and var-params
-                                (>= (count args) (count params))
-                                (> (count (:params arity))
-                                   (count (:params best))))
-                         arity
-                         best)))))
+(defn- match-defn-arity [^Defn {:keys [arities]} args]
+  (letfn [(better-match? [{:keys [params var-params] :as arity} best]
+            (and var-params
+                 (>= (count args) (count params))
+                 (> (count (:params arity))
+                    (count (:params best)))))
+          (exact-match? [{:keys [params var-params]}]
+            (and (= (count params) (count args)) (nil? var-params)))]
+    (loop [[arity & tail] arities
+           best nil]
+      (cond (nil? arity) best
+            (exact-match? arity) arity
+            (better-match? arity best) (recur tail arity)
+            :else (recur tail best)))))
 
 (defn- zip-params-args [{:keys [params var-params]} args]
   (let [pcount (count params)
@@ -143,23 +187,23 @@
 #trace
 (defn execute-applicaiton [proc args ds k]
   (cond (core/primitive-procedure? proc) 
-        (k (conj ds (apply proc args)))
+        #(k (conj ds (apply proc args)))
 
         (instance? Continuation proc)
-        ((.k ^Continuation proc) ds)
+        #((.k ^Continuation proc) ds)
 
         (instance? Defn proc)
         (let [^Arity arity (match-defn-arity proc args)
               env (core/extend-env (.env proc) 
                                    (zip-params-args arity args))]
-          ((.body arity)
-           env
-           ds
-           k))
+          #((.body arity) env ds k))
+
+        (instance? Native proc)
+        #(k (conj ds (eval `(~(.sym ^Native proc) ~@args))))
+
         :else (throw (ex-info  "Unknown procedure type: "  
                               {:proc proc :args args}))))
 
-#trace
 (defn analyze-application [[_ op args-count]] ;; (invoke> + 2)
   (let [op-fn (analyze op)]
     (fn [env ds k]
@@ -179,6 +223,12 @@
 
 (defn- def? [^String sym]
   (and (str/starts-with? sym "!") (str/ends-with? sym "+")))
+
+(defn- native? [^clojure.lang.Symbol sym]
+  (let [^String nm (name sym)]
+    (or (str/starts-with? nm ".")
+        (str/ends-with? nm ".")
+        (.contains (str sym) "/"))))
 
 (defn- swap [v] 
   (let [c (count v)
@@ -201,7 +251,10 @@
             (= sym '<dup>) (fn [_ ds k] #(k (conj ds (last ds)))) 
             (= sym '<swap>) (fn [_ ds k] #(k (swap ds)))
             (= sym '<call>) (analyze-call sym)
+            (= sym '<continue>) (generate-call-cc '<continue_>) 
+            (= sym '<break>) (generate-call-cc '<break_>)
             (def? _name) (analyze-def sym)
+            (native? sym) (analyze-native sym)
             :else (analyze-lookup sym)))) 
 
   clojure.lang.ISeq
@@ -212,35 +265,53 @@
       defn> (analyze-defn sexp)
       call/cc> (analyze-call-cc sexp)
       if> (analyze-if sexp)
+      each> (analyze-each sexp)
+      times> (analyze-times sexp)
+      when> (analyze-when sexp)
       quote> (analyze-quoted sexp) 
       quote (analyze-quoted sexp)
       invoke> (analyze-application sexp)
       (analyze-sequence sexp))))
 
-(defn eval-program [sexps]
+#_(defn eval- [sexps]
   (let [env (core/extend-env)]
-    (trampoline (analyze-sequence sexps) env [] identity)))
+    ((analyze sexps) env [] identity)))
+
+(defn eval- 
+  ([cs]
+   (eval- cs (core/extend-env)))
+  ([cs env]
+   (eval- cs env [] identity))
+  ([[h & tail :as cs] env ds k]
+   (println :ds ds :cs cs)
+   (if (or (some? h) (some? tail))
+     (trampoline (analyze h)
+                 env
+                 ds
+                 (fn [stack2]
+                   #(eval- tail env stack2 k)))
+     ds)))
 
 (comment
 
-  (eval-program '(
+  (eval- '(
                   '(2 !b+ !b)
                   <call>
                   ))
 
-  (eval-program '(
+  (eval- '(
                   1 1
                   (invoke> = 2)
                   (if> "was true" 1 2 !c+ else> "was false")
                   ))
 
-  (eval-program '(
+  (eval- '(
                     2 !a+
                     (quote> 1 2 3 !b+)
                     <call>
                     ))
 
-  (eval-program '(
+  (eval- '(
                   1
                   (call/cc>
                     !c1+
@@ -252,7 +323,7 @@
                   "end"
                   ))
 
-  (eval-program '(
+  (eval- '(
                     1
                     !a+
                     (call/cc>
@@ -270,7 +341,7 @@
                     "end"
                     ))
 
-  (eval-program '(
+  (eval- '(
                   (defn> plus7 
                     ([!a]
                      !a 7 (invoke> + 2))
@@ -295,7 +366,7 @@
                     (invoke> plus7 4)
                     ))
 
-  (eval-program '(
+  (eval- '(
                   (defn> each
                     [!vc !quot]
                     !vc
@@ -322,7 +393,7 @@
                   ))
 
   
-  (eval-program '(
+  (eval- '(
                   (defn> each
                     [!vc !quot]
                     !vc
