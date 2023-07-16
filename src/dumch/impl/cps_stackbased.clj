@@ -294,124 +294,103 @@
 
 (comment
 
-  (eval- '(
-                  '(2 !b+ !b)
-                  <call>
-                  ))
+  (eval- '('(2 !b+ !b)
+           <call>))
 
-  (eval- '(
-                  1 1
-                  (invoke> = 2)
-                  (if> "was true" 1 2 !c+ else> "was false")
-                  ))
+  (eval- '(1 1
+             (invoke> = 2)
+             (if> "was true" 1 2 !c+ else> "was false")))
 
-  (eval- '(
-                    2 !a+
-                    (quote> 1 2 3 !b+)
-                    <call>
-                    ))
+  (eval- '(2 !a+
+             (quote> 1 2 3 !b+)
+             <call>))
 
-  (eval- '(
-                  1
-                  (call/cc>
-                    !c1+
-                    <pop>
-                    2
-                    (invoke> !c1 0)
-                    3
-                    )
-                  "end"
-                  ))
+  (eval- '(1
+           (call/cc>
+            !c1+
+            <pop>
+            2
+            (invoke> !c1 0)
+            3)
+           "end"))
 
-  (eval- '(
-                    1
-                    !a+
-                    (call/cc>
-                      !c1+
+  (eval- '(1
+           !a+
+           (call/cc>
+            !c1+
+            <pop>
+            2
+            (call/cc> !c2+
                       <pop>
-                      2
-                      (call/cc> !c2+ 
-                                <pop> 
-                                true
-                                (if> (invoke> !c2 0) else> 0) 
-                                9)
-                      3
-                      (invoke> !c1 0)
-                      )
-                    "end"
-                    ))
+                      true
+                      (if> (invoke> !c2 0) else> 0)
+                      9)
+            3
+            (invoke> !c1 0))
+           "end"))
 
-  (eval- '(
-                  (defn> plus7 
-                    ([!a]
-                     !a 7 (invoke> + 2))
-                    ([!a !b]
-                     !a
-                     !b
-                     7
-                     (invoke> + 3))
-                    ([!a !b & !sq]
-                     !sq 
-                     (invoke> count 1)
-                     3 ;; add 3 more args: !a, !b, 7 
-                     (invoke> + 2)
-                     !args-count+
-                     <pop>
-                     !a !b
-                     !sq <call> ;; move sequence to stack
-                     7
-                     (invoke> + !args-count)
-                     ))
-                    1 1 1 1
-                    (invoke> plus7 4)
-                    ))
+  (eval- '((defn> plus7
+             ([!a]
+              !a 7 (invoke> + 2))
+             ([!a !b]
+              !a
+              !b
+              7
+              (invoke> + 3))
+             ([!a !b & !sq]
+              !sq
+              (invoke> count 1)
+              3 ;; add 3 more args: !a, !b, 7 
+              (invoke> + 2)
+              !args-count+
+              <pop>
+              !a !b
+              !sq <call> ;; move sequence to stack
+              7
+              (invoke> + !args-count)))
+           1 1 1 1
+           (invoke> plus7 4)))
 
-  (eval- '(
-                  (defn> each
-                    [!vc !quot]
-                    !vc
-                    (if>
-                      !vc
-                      (invoke> first 1)
-                      !quot
-                      <call>
-                      !vc
-                      (invoke> next 1)
-                      !quot
-                      (invoke> each 2)
-                      else>
-                      <pop>))
+  (eval- '((defn> each
+             [!vc !quot]
+             !vc
+             (if>
+              !vc
+              (invoke> first 1)
+              !quot
+              <call>
+              !vc
+              (invoke> next 1)
+              !quot
+              (invoke> each 2)
+              else>
+              <pop>))
 
+           '(1 2 3 4)
+           (quote>
+            ">>> number: "
+            <swap>
+            (invoke> println 2))
+           (invoke> each 2)))
 
-                  '(1 2 3 4)
-                  (quote>
-                    ">>> number: "
-                    <swap>
-                    (invoke> println 2)
-                    )
-                  (invoke> each 2)
-                  ))
+  (eval- '((defn> each
+             [!vc !quot]
+             !vc
+             (if>
+              !vc
+              (invoke> first 1)
+              !quot
+              <call>
+              !vc
+              (invoke> next 1)
+              !quot
+              (invoke> each 2)
+              else>
+              <pop>))
 
-  
-  (eval- '(
-                  (defn> each
-                    [!vc !quot]
-                    !vc
-                    (if>
-                      !vc
-                      (invoke> first 1)
-                      !quot
-                      <call>
-                      !vc
-                      (invoke> next 1)
-                      !quot
-                      (invoke> each 2)
-                      else>
-                      <pop>))
-
-                  (call/cc> !break+ <pop>
-                    '(1 2 3 4)
-                    (quote>
+           (call/cc> !break+ <pop>
+                     '(1 2 3 4)
+                     (quote>
                       (call/cc> !continue+ <pop>
                         !input+
                         !input
